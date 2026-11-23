@@ -3,7 +3,7 @@ import { validateEmail, validatePassword } from '../../utils/validation';
 import sciBuildingImg from '../../assets/SCI-CU.jpg';
 import './Login.css';
 
-export default function Login({ onNavigateToRegister }) {
+export default function Login({ onNavigateToRegister, onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
@@ -108,6 +108,14 @@ export default function Login({ onNavigateToRegister }) {
         type: 'success',
         message: `Welcome back, ${email.split('@')[0]}! Signed in successfully. Loading your portal...`,
       });
+      if (onLoginSuccess) {
+        setTimeout(() => {
+          onLoginSuccess({
+            email,
+            role: email.toLowerCase().includes('instructor') ? 'instructor' : 'student',
+          });
+        }, 900);
+      }
     }, 1200);
   };
 
