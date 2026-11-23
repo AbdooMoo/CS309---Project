@@ -3,7 +3,7 @@ import { validateEmail, validatePassword } from '../../utils/validation';
 import sciBuildingImg from '../../assets/SCI-CU.jpg';
 import './Login.css';
 
-export default function Login({ onNavigateToRegister }) {
+export default function Login({ onNavigateToRegister, onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
@@ -108,6 +108,14 @@ export default function Login({ onNavigateToRegister }) {
         type: 'success',
         message: `Welcome back, ${email.split('@')[0]}! Signed in successfully. Loading your portal...`,
       });
+      if (onLoginSuccess) {
+        setTimeout(() => {
+          onLoginSuccess({
+            email,
+            role: email.toLowerCase().includes('instructor') ? 'instructor' : 'student',
+          });
+        }, 900);
+      }
     }, 1200);
   };
 
@@ -148,18 +156,16 @@ export default function Login({ onNavigateToRegister }) {
         <section
           className="auth-hero-pane"
           style={{
-            transform: `perspective(1000px) rotateY(${mousePos.x * 2.5}deg) rotateX(${
-              mousePos.y * -2.5
-            }deg)`,
+            transform: `perspective(1000px) rotateY(${mousePos.x * 2.5}deg) rotateX(${mousePos.y * -2.5
+              }deg)`,
           }}
         >
           <div
             className="hero-background"
             style={{
               backgroundImage: `url(${sciBuildingImg})`,
-              transform: `scale(1.04) translate(${mousePos.x * -6}px, ${
-                mousePos.y * -6
-              }px)`,
+              transform: `scale(1.04) translate(${mousePos.x * -6}px, ${mousePos.y * -6
+                }px)`,
             }}
           />
           <div className="hero-overlay" />
@@ -191,11 +197,9 @@ export default function Login({ onNavigateToRegister }) {
             <div
               className="live-session-card"
               style={{
-                transform: `translate(${mousePos.x * 12}px, ${
-                  mousePos.y * 12
-                }px) perspective(600px) rotateY(${mousePos.x * 4}deg) rotateX(${
-                  mousePos.y * -4
-                }deg)`,
+                transform: `translate(${mousePos.x * 12}px, ${mousePos.y * 12
+                  }px) perspective(600px) rotateY(${mousePos.x * 4}deg) rotateX(${mousePos.y * -4
+                  }deg)`,
               }}
             >
               <div className="live-info">
