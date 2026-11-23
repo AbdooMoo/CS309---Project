@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './AdminProfile.css';
 
 const INITIAL_PROFILE = {
@@ -27,7 +27,11 @@ export default function AdminProfile() {
     jobTitle: INITIAL_PROFILE.jobTitle
   });
   const [errors, setErrors] = useState({});
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const [previewImage, setPreviewImage] = useState(null);
+  const [previewFileName, setPreviewFileName] = useState('');
+  const fileInputRef = useRef(null);
 
   const validatePersonalForm = () => {
     const errs = {};
@@ -114,7 +118,58 @@ export default function AdminProfile() {
     }));
 
     setIsEditingPersonal(false);
-    setToastMessage('Personal information updated successfully.');
+    setToast({ type: 'success', message: 'Personal information updated successfully.' });
+  };
+
+  const handleTriggerUpload = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImageSelect = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setToast({ type: 'error', message: 'Please select an image file (PNG, JPG, or WEBP).' });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setToast({ type: 'error', message: 'Image size exceeds the maximum limit of 5MB.' });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result);
+      setPreviewFileName(file.name);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleApplyImage = () => {
+    if (!previewImage) return;
+    setProfile((prev) => ({ ...prev, profilePicture: previewImage }));
+    setPreviewImage(null);
+    setPreviewFileName('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    setToast({ type: 'success', message: 'Profile picture updated successfully.' });
+  };
+
+  const handleCancelImage = () => {
+    setPreviewImage(null);
+    setPreviewFileName('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleRemoveImage = () => {
+    setProfile((prev) => ({ ...prev, profilePicture: '' }));
+    setPreviewImage(null);
+    setPreviewFileName('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    setToast({ type: 'success', message: 'Profile picture removed.' });
   };
 
   return (
@@ -142,18 +197,26 @@ export default function AdminProfile() {
       </header>
 
       <main className="admin-container">
-        {toastMessage && (
-          <div className="toast-banner toast-banner-success">
+        {toast && (
+          <div className={`toast-banner toast-banner-${toast.type}`}>
             <div className="toast-content">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>{toastMessage}</span>
+              {toast.type === 'success' ? (
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              )}
+              <span>{toast.message}</span>
             </div>
             <button
               type="button"
               className="toast-close-btn"
-              onClick={() => setToastMessage(null)}
+              onClick={() => setToast(null)}
             >
               &times;
             </button>
@@ -162,15 +225,36 @@ export default function AdminProfile() {
 
         <section className="profile-header-card">
           <div className="profile-header-left">
-            <div className="profile-avatar-wrapper">
-              {profile.profilePicture ? (
-                <img src={profile.profilePicture} alt={profile.fullName} className="profile-avatar-img" />
-              ) : (
-                <div className="profile-avatar-fallback">
-                  <span>TM</span>
-                </div>
-              )}
+            <div className="avatar-container">
+              <div className="profile-avatar-wrapper">
+                {profile.profilePicture ? (
+                  <img src={profile.profilePicture} alt={profile.fullName} className="profile-avatar-img" />
+                ) : (
+                  <div className="profile-avatar-fallback">
+                    <span>TM</span>
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                className="avatar-upload-btn"
+                title="Upload Profile Picture"
+                onClick={handleTriggerUpload}
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg>
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="file-input-hidden"
+                accept="image/*"
+                onChange={handleImageSelect}
+              />
             </div>
+
             <div className="profile-header-info">
               <div className="profile-name-row">
                 <h2 className="admin-name">{profile.fullName}</h2>
@@ -186,7 +270,29 @@ export default function AdminProfile() {
               </div>
             </div>
           </div>
+
           <div className="profile-header-actions">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleTriggerUpload}
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <span>Upload Picture</span>
+            </button>
+            {profile.profilePicture && (
+              <button
+                type="button"
+                className="btn btn-cancel"
+                onClick={handleRemoveImage}
+              >
+                Remove
+              </button>
+            )}
             {!isEditingPersonal && (
               <button
                 type="button"
@@ -201,6 +307,39 @@ export default function AdminProfile() {
               </button>
             )}
           </div>
+
+          {previewImage && (
+            <div className="photo-preview-card">
+              <div className="photo-preview-details">
+                <div className="preview-thumb-box">
+                  <img src={previewImage} alt="Preview" className="preview-thumb-img" />
+                </div>
+                <div>
+                  <h4 className="preview-meta-title">New Profile Picture Selected</h4>
+                  <p className="preview-meta-desc">{previewFileName || 'Image preview'} &bull; Ready to save</p>
+                </div>
+              </div>
+              <div className="photo-preview-actions">
+                <button
+                  type="button"
+                  className="btn btn-cancel btn-sm"
+                  onClick={handleCancelImage}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={handleApplyImage}
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span>Apply Picture</span>
+                </button>
+              </div>
+            </div>
+          )}
         </section>
 
         <div className="profile-content-grid">
