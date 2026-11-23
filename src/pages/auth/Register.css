@@ -43,10 +43,6 @@
   overflow: hidden;
 }
 
-/* ==========================================================================
-   LEFT SECTION (Hero Pane)
-   ========================================================================== */
-
 .register-hero-pane {
   position: relative;
   min-height: 100%;
@@ -192,10 +188,6 @@
   color: rgba(246, 236, 225, 0.7);
 }
 
-/* ==========================================================================
-   RIGHT SECTION (Registration Form Pane)
-   ========================================================================== */
-
 .register-form-pane {
   padding: 2.5rem 2.75rem;
   display: flex;
@@ -271,7 +263,6 @@
   color: var(--text-muted);
 }
 
-/* Feedback Alert */
 .feedback-alert {
   display: flex;
   align-items: center;
@@ -301,7 +292,6 @@
   flex-shrink: 0;
 }
 
-/* Form Structure */
 .register-form {
   display: flex;
   flex-direction: column;
@@ -419,7 +409,6 @@
   font-weight: 500;
 }
 
-/* Terms Checkbox */
 .terms-row {
   display: flex;
   flex-direction: column;
@@ -459,7 +448,6 @@
   color: var(--wine-hover);
 }
 
-/* Submit Button */
 .submit-button {
   width: 100%;
   height: 44px;
@@ -523,7 +511,6 @@
   }
 }
 
-/* Bottom Sign In Link */
 .register-bottom-prompt {
   text-align: center;
   font-size: 0.85rem;
@@ -536,17 +523,12 @@
   font-size: 0.85rem;
 }
 
-/* Footer Note */
 .form-footer-note {
   text-align: center;
   font-size: 0.75rem;
   color: #9ca3af;
   margin-top: 1.25rem;
 }
-
-/* ==========================================================================
-   RESPONSIVENESS
-   ========================================================================== */
 
 @media (max-width: 980px) {
   .unitrack-register-card {

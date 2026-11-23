@@ -3,17 +3,15 @@ import { validateEmail, validatePassword } from '../../utils/validation';
 import sciBuildingImg from '../../assets/SCI-CU.jpg';
 import './Register.css';
 
-const FACULTY_OPTIONS = [
-  'Faculty of Science',
-  'Faculty of Engineering',
-  'Faculty of Computers and Artificial Intelligence',
-  'Faculty of Medicine',
-  'Faculty of Pharmacy',
-  'Faculty of Commerce',
-  'Faculty of Arts',
-  'Faculty of Law',
-  'Faculty of Dentistry',
-  'Faculty of Nursing',
+const DEPARTMENT_OPTIONS = [
+  'Mathematics',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'Geology',
+  'Computer Science',
+  'Botany',
+  'Zoology',
 ];
 
 const ACADEMIC_YEAR_OPTIONS = [
@@ -22,7 +20,7 @@ const ACADEMIC_YEAR_OPTIONS = [
   '3rd Year (Junior)',
   '4th Year (Senior)',
   'Postgraduate (Master\'s / PhD)',
-  'Faculty / Academic Staff',
+  'Department Staff / Teaching Assistant',
 ];
 
 export default function Register({ onNavigateToLogin }) {
@@ -30,7 +28,7 @@ export default function Register({ onNavigateToLogin }) {
     fullName: '',
     email: '',
     universityId: '',
-    faculty: '',
+    department: '',
     academicYear: '',
     password: '',
     confirmPassword: '',
@@ -86,7 +84,7 @@ export default function Register({ onNavigateToLogin }) {
         } else {
           delete newErrors.email;
           if (!emailResult.isAcademic && value.length > 0) {
-            newErrors.emailWarning = 'Tip: Using your official university email is recommended.';
+            newErrors.emailWarning = 'Tip: Using your official university email (@science.cu.edu.eg) is recommended.';
           } else {
             delete newErrors.emailWarning;
           }
@@ -104,11 +102,11 @@ export default function Register({ onNavigateToLogin }) {
         }
         break;
 
-      case 'faculty':
+      case 'department':
         if (!value) {
-          newErrors.faculty = 'Please select your faculty.';
+          newErrors.department = 'Please select your department.';
         } else {
-          delete newErrors.faculty;
+          delete newErrors.department;
         }
         break;
 
@@ -128,7 +126,6 @@ export default function Register({ onNavigateToLogin }) {
           delete newErrors.password;
         }
 
-        // Re-check confirmPassword if already entered
         if (formData.confirmPassword) {
           if (value !== formData.confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match.';
@@ -170,7 +167,7 @@ export default function Register({ onNavigateToLogin }) {
       fullName: true,
       email: true,
       universityId: true,
-      faculty: true,
+      department: true,
       academicYear: true,
       password: true,
       confirmPassword: true,
@@ -180,52 +177,44 @@ export default function Register({ onNavigateToLogin }) {
 
     const newErrors = {};
 
-    // Full name
     if (!formData.fullName || !formData.fullName.trim()) {
       newErrors.fullName = 'Full name is required.';
     } else if (formData.fullName.trim().length < 3) {
       newErrors.fullName = 'Name must be at least 3 characters long.';
     }
 
-    // Email
     const emailResult = validateEmail(formData.email);
     if (!emailResult.isValid) {
       newErrors.email = emailResult.error;
     } else if (!emailResult.isAcademic && formData.email.length > 0) {
-      newErrors.emailWarning = 'Tip: Using your official university email is recommended.';
+      newErrors.emailWarning = 'Tip: Using your official university email (@science.cu.edu.eg) is recommended.';
     }
 
-    // University ID
     if (!formData.universityId || !formData.universityId.trim()) {
       newErrors.universityId = 'University ID is required.';
     } else if (formData.universityId.trim().length < 4) {
       newErrors.universityId = 'University ID must be at least 4 characters.';
     }
 
-    // Faculty
-    if (!formData.faculty) {
-      newErrors.faculty = 'Please select your faculty.';
+    if (!formData.department) {
+      newErrors.department = 'Please select your department.';
     }
 
-    // Academic Year
     if (!formData.academicYear) {
       newErrors.academicYear = 'Please select your academic year.';
     }
 
-    // Password
     const passResult = validatePassword(formData.password);
     if (!passResult.isValid) {
       newErrors.password = passResult.error;
     }
 
-    // Confirm Password
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password.';
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match.';
     }
 
-    // Agree Terms
     if (!formData.agreeTerms) {
       newErrors.agreeTerms = 'You must agree to the Terms & Conditions.';
     }
@@ -245,7 +234,6 @@ export default function Register({ onNavigateToLogin }) {
     setIsLoading(true);
     setFeedback(null);
 
-    // Simulate registration API call
     setTimeout(() => {
       setIsLoading(false);
       setFeedback({
@@ -253,7 +241,6 @@ export default function Register({ onNavigateToLogin }) {
         message: `Account created successfully for ${formData.fullName}! You can now sign in.`,
       });
 
-      // Redirect to login after 2 seconds if navigation callback provided
       if (onNavigateToLogin) {
         setTimeout(() => {
           onNavigateToLogin();
@@ -265,7 +252,6 @@ export default function Register({ onNavigateToLogin }) {
   return (
     <div className="unitrack-register-wrapper">
       <div className="unitrack-register-card">
-        {/* ================= LEFT SECTION ================= */}
         <section className="register-hero-pane">
           <div
             className="register-hero-background"
@@ -273,7 +259,6 @@ export default function Register({ onNavigateToLogin }) {
           />
           <div className="register-hero-overlay" />
 
-          {/* Top Brand Logo */}
           <div className="register-brand">
             <div className="register-brand-logo-icon">
               <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -294,7 +279,6 @@ export default function Register({ onNavigateToLogin }) {
             </div>
           </div>
 
-          {/* Hero Middle Content */}
           <div className="register-hero-content">
             <span className="register-faculty-tag">
               FACULTY OF SCIENCE &bull; CAIRO UNIVERSITY
@@ -305,7 +289,7 @@ export default function Register({ onNavigateToLogin }) {
               simplified for you.
             </h1>
             <p className="register-hero-description">
-              Create your verified student or faculty profile to attend lectures, track attendance records, and manage your digital campus ID seamlessly.
+              Create your verified student or staff profile to attend lectures, track attendance records, and manage your digital campus ID seamlessly across Science departments.
             </p>
 
             <div className="register-feature-list">
@@ -331,18 +315,16 @@ export default function Register({ onNavigateToLogin }) {
                     <polyline points="4 11 8 15 16 6" />
                   </svg>
                 </span>
-                <span>Official student &amp; faculty digital ID card</span>
+                <span>Official student &amp; staff digital ID card</span>
               </div>
             </div>
           </div>
 
-          {/* Hero Footer */}
           <footer className="register-hero-footer">
             &copy; {new Date().getFullYear()} UniTrack Smart Attendance System. All rights reserved.
           </footer>
         </section>
 
-        {/* ================= RIGHT SECTION ================= */}
         <section className="register-form-pane">
           <div className="register-top-bar">
             <span className="switch-prompt">Already have an account?</span>
@@ -366,7 +348,7 @@ export default function Register({ onNavigateToLogin }) {
               <span className="register-welcome-tag">&mdash;&mdash; GET STARTED</span>
               <h2 className="register-form-title">Create your account</h2>
               <p className="register-form-subtitle">
-                Enter your university information below to create your student or faculty profile.
+                Enter your academic details below to create your Faculty of Science profile.
               </p>
             </div>
 
@@ -382,7 +364,6 @@ export default function Register({ onNavigateToLogin }) {
             )}
 
             <form className="register-form" onSubmit={handleSubmit} noValidate>
-              {/* Full Name */}
               <div className={`input-field-group ${errors.fullName ? 'has-error' : ''}`}>
                 <label htmlFor="reg-fullname" className="field-label">
                   FULL NAME
@@ -413,7 +394,6 @@ export default function Register({ onNavigateToLogin }) {
                 )}
               </div>
 
-              {/* University Email */}
               <div className={`input-field-group ${errors.email ? 'has-error' : ''}`}>
                 <label htmlFor="reg-email" className="field-label">
                   UNIVERSITY EMAIL
@@ -423,7 +403,7 @@ export default function Register({ onNavigateToLogin }) {
                     id="reg-email"
                     name="email"
                     type="email"
-                    placeholder="you@university.edu"
+                    placeholder="you@science.cu.edu.eg"
                     className="text-input"
                     value={formData.email}
                     onChange={handleChange}
@@ -449,7 +429,6 @@ export default function Register({ onNavigateToLogin }) {
                 )}
               </div>
 
-              {/* University ID */}
               <div className={`input-field-group ${errors.universityId ? 'has-error' : ''}`}>
                 <label htmlFor="reg-university-id" className="field-label">
                   UNIVERSITY ID
@@ -481,32 +460,31 @@ export default function Register({ onNavigateToLogin }) {
                 )}
               </div>
 
-              {/* Faculty & Academic Year (2 columns on desktop) */}
               <div className="form-grid-row">
-                <div className={`input-field-group ${errors.faculty ? 'has-error' : ''}`}>
-                  <label htmlFor="reg-faculty" className="field-label">
-                    FACULTY
+                <div className={`input-field-group ${errors.department ? 'has-error' : ''}`}>
+                  <label htmlFor="reg-department" className="field-label">
+                    DEPARTMENT
                   </label>
                   <div className="input-control-wrapper">
                     <select
-                      id="reg-faculty"
-                      name="faculty"
+                      id="reg-department"
+                      name="department"
                       className="select-input"
-                      value={formData.faculty}
+                      value={formData.department}
                       onChange={handleChange}
-                      onBlur={() => handleBlur('faculty')}
+                      onBlur={() => handleBlur('department')}
                     >
-                      <option value="">Select Faculty...</option>
-                      {FACULTY_OPTIONS.map((fac) => (
-                        <option key={fac} value={fac}>
-                          {fac}
+                      <option value="">Select Department...</option>
+                      {DEPARTMENT_OPTIONS.map((dept) => (
+                        <option key={dept} value={dept}>
+                          {dept}
                         </option>
                       ))}
                     </select>
                   </div>
-                  {errors.faculty && (
+                  {errors.department && (
                     <span className="error-message" role="alert">
-                      {errors.faculty}
+                      {errors.department}
                     </span>
                   )}
                 </div>
@@ -540,7 +518,6 @@ export default function Register({ onNavigateToLogin }) {
                 </div>
               </div>
 
-              {/* Password & Confirm Password (2 columns on desktop) */}
               <div className="form-grid-row">
                 <div className={`input-field-group ${errors.password ? 'has-error' : ''}`}>
                   <label htmlFor="reg-password" className="field-label">
@@ -627,7 +604,6 @@ export default function Register({ onNavigateToLogin }) {
                 </div>
               </div>
 
-              {/* Terms and Conditions Checkbox */}
               <div className={`terms-row ${errors.agreeTerms ? 'has-error' : ''}`}>
                 <label className="checkbox-label">
                   <input
@@ -652,7 +628,6 @@ export default function Register({ onNavigateToLogin }) {
                 )}
               </div>
 
-              {/* Create Account Submit Button */}
               <button
                 type="submit"
                 className="submit-button"
@@ -672,7 +647,6 @@ export default function Register({ onNavigateToLogin }) {
               </button>
             </form>
 
-            {/* Bottom link: "Already have an account? Sign in" */}
             <p className="register-bottom-prompt">
               Already have an account?{' '}
               <button
@@ -692,7 +666,7 @@ export default function Register({ onNavigateToLogin }) {
           </div>
 
           <footer className="form-footer-note">
-            New students, academic staff, and faculty members register here.
+            New students, researchers, and academic staff register here.
           </footer>
         </section>
       </div>
