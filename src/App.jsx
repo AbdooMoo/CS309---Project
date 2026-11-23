@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import Login from './pages/auth/Login';
 import InstructorDashboard from './pages/dashboards/instructor/InstructorDashboard';
+=======
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './pages/auth/Login';
+import AdminProfile from './pages/admin/AdminProfile';
+>>>>>>> 28f91eb5f8ed4243474d102e244d3779569cb4b2
 import './App.css';
 
 function App() {
@@ -41,6 +48,7 @@ function App() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="app-root">
       {/* Discreet Portal View Switcher for Evaluation */}
       <aside className="portal-dev-switcher" aria-label="Portal View Switcher">
@@ -69,6 +77,19 @@ function App() {
         <Login onLoginSuccess={handleLoginSuccess} />
       )}
     </div>
+=======
+    <BrowserRouter>
+      <div className="app-root">
+        <Routes>
+          <Route path="/" element={<AdminProfile />} />
+          <Route path="/admin" element={<AdminProfile />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin-profile" element={<AdminProfile />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+>>>>>>> 28f91eb5f8ed4243474d102e244d3779569cb4b2
   );
 }
 

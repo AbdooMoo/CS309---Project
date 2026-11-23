@@ -156,18 +156,16 @@ export default function Login({ onNavigateToRegister, onLoginSuccess }) {
         <section
           className="auth-hero-pane"
           style={{
-            transform: `perspective(1000px) rotateY(${mousePos.x * 2.5}deg) rotateX(${
-              mousePos.y * -2.5
-            }deg)`,
+            transform: `perspective(1000px) rotateY(${mousePos.x * 2.5}deg) rotateX(${mousePos.y * -2.5
+              }deg)`,
           }}
         >
           <div
             className="hero-background"
             style={{
               backgroundImage: `url(${sciBuildingImg})`,
-              transform: `scale(1.04) translate(${mousePos.x * -6}px, ${
-                mousePos.y * -6
-              }px)`,
+              transform: `scale(1.04) translate(${mousePos.x * -6}px, ${mousePos.y * -6
+                }px)`,
             }}
           />
           <div className="hero-overlay" />
@@ -199,11 +197,9 @@ export default function Login({ onNavigateToRegister, onLoginSuccess }) {
             <div
               className="live-session-card"
               style={{
-                transform: `translate(${mousePos.x * 12}px, ${
-                  mousePos.y * 12
-                }px) perspective(600px) rotateY(${mousePos.x * 4}deg) rotateX(${
-                  mousePos.y * -4
-                }deg)`,
+                transform: `translate(${mousePos.x * 12}px, ${mousePos.y * 12
+                  }px) perspective(600px) rotateY(${mousePos.x * 4}deg) rotateX(${mousePos.y * -4
+                  }deg)`,
               }}
             >
               <div className="live-info">
