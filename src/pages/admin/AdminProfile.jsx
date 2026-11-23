@@ -33,6 +33,18 @@ export default function AdminProfile() {
   const [previewFileName, setPreviewFileName] = useState('');
   const fileInputRef = useRef(null);
 
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [passwordErrors, setPasswordErrors] = useState({});
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false
+  });
+
   const validatePersonalForm = () => {
     const errs = {};
     if (!personalForm.fullName || !personalForm.fullName.trim()) {
@@ -172,6 +184,71 @@ export default function AdminProfile() {
     setToast({ type: 'success', message: 'Profile picture removed.' });
   };
 
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordForm((prev) => ({ ...prev, [name]: value }));
+    if (passwordErrors[name]) {
+      setPasswordErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  const handleSavePassword = (e) => {
+    e.preventDefault();
+    const pErrs = {};
+
+    if (!passwordForm.currentPassword) {
+      pErrs.currentPassword = 'Current password is required.';
+    }
+
+    if (!passwordForm.newPassword) {
+      pErrs.newPassword = 'New password is required.';
+    } else if (passwordForm.newPassword.length < 6) {
+      pErrs.newPassword = 'New password must be at least 6 characters.';
+    } else if (passwordForm.currentPassword && passwordForm.newPassword === passwordForm.currentPassword) {
+      pErrs.newPassword = 'New password must be different from current password.';
+    }
+
+    if (!passwordForm.confirmPassword) {
+      pErrs.confirmPassword = 'Confirmation password is required.';
+    } else if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      pErrs.confirmPassword = 'Passwords do not match.';
+    }
+
+    if (Object.keys(pErrs).length > 0) {
+      setPasswordErrors(pErrs);
+      return;
+    }
+
+    setPasswordErrors({});
+    setPasswordForm({
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    });
+
+    setToast({
+      type: 'info',
+      message: 'Demo Mode: Password validated successfully. Backend service is currently in mock/disconnected state; credentials are not permanently committed to database.'
+    });
+  };
+
+  const handleCancelPassword = () => {
+    setPasswordForm({
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    });
+    setPasswordErrors({});
+  };
+
   return (
     <div className="admin-profile-page">
       <header className="admin-topbar">
@@ -200,15 +277,23 @@ export default function AdminProfile() {
         {toast && (
           <div className={`toast-banner toast-banner-${toast.type}`}>
             <div className="toast-content">
-              {toast.type === 'success' ? (
+              {toast.type === 'success' && (
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-              ) : (
+              )}
+              {toast.type === 'error' && (
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <line x1="12" y1="8" x2="12" y2="12" />
                   <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              )}
+              {toast.type === 'info' && (
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
                 </svg>
               )}
               <span>{toast.message}</span>
@@ -553,6 +638,170 @@ export default function AdminProfile() {
                 </div>
               </div>
             </div>
+          </section>
+
+          <section className="profile-card security-card-full">
+            <div className="card-header-bar">
+              <div className="card-title-group">
+                <div className="card-icon-box">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="card-title">Security & Password</h3>
+                  <p className="card-subtitle">Update your system access credentials and security settings</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="security-info-box">
+              <svg className="security-info-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              <span>Passwords must be at least 6 characters. For university administrator security, use a combination of uppercase letters, numbers, and symbols.</span>
+            </div>
+
+            <form onSubmit={handleSavePassword} noValidate>
+              <div className="form-inputs-grid">
+                <div className="input-field-group">
+                  <label className="field-label" htmlFor="currentPassword">
+                    Current Password <span className="field-required">*</span>
+                  </label>
+                  <div className="password-input-wrapper">
+                    <input
+                      id="currentPassword"
+                      name="currentPassword"
+                      type={showPasswords.current ? 'text' : 'password'}
+                      className={`form-input ${passwordErrors.currentPassword ? 'form-input-error' : ''}`}
+                      placeholder="Enter current password"
+                      value={passwordForm.currentPassword}
+                      onChange={handlePasswordChange}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle-btn"
+                      onClick={() => togglePasswordVisibility('current')}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPasswords.current ? (
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                          <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  {passwordErrors.currentPassword && (
+                    <span className="form-error-msg">{passwordErrors.currentPassword}</span>
+                  )}
+                </div>
+
+                <div className="input-field-group">
+                  <label className="field-label" htmlFor="newPassword">
+                    New Password <span className="field-required">*</span>
+                  </label>
+                  <div className="password-input-wrapper">
+                    <input
+                      id="newPassword"
+                      name="newPassword"
+                      type={showPasswords.new ? 'text' : 'password'}
+                      className={`form-input ${passwordErrors.newPassword ? 'form-input-error' : ''}`}
+                      placeholder="Enter new password (min. 6 characters)"
+                      value={passwordForm.newPassword}
+                      onChange={handlePasswordChange}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle-btn"
+                      onClick={() => togglePasswordVisibility('new')}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPasswords.new ? (
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                          <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  {passwordErrors.newPassword && (
+                    <span className="form-error-msg">{passwordErrors.newPassword}</span>
+                  )}
+                </div>
+
+                <div className="input-field-group info-field-full">
+                  <label className="field-label" htmlFor="confirmPassword">
+                    Confirm New Password <span className="field-required">*</span>
+                  </label>
+                  <div className="password-input-wrapper">
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showPasswords.confirm ? 'text' : 'password'}
+                      className={`form-input ${passwordErrors.confirmPassword ? 'form-input-error' : ''}`}
+                      placeholder="Confirm new password"
+                      value={passwordForm.confirmPassword}
+                      onChange={handlePasswordChange}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle-btn"
+                      onClick={() => togglePasswordVisibility('confirm')}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPasswords.confirm ? (
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                          <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  {passwordErrors.confirmPassword && (
+                    <span className="form-error-msg">{passwordErrors.confirmPassword}</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="card-actions-bar">
+                <button
+                  type="button"
+                  className="btn btn-cancel"
+                  onClick={handleCancelPassword}
+                >
+                  Clear
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  <span>Save Password</span>
+                </button>
+              </div>
+            </form>
           </section>
         </div>
       </main>

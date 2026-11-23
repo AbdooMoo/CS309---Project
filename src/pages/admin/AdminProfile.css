@@ -21,6 +21,9 @@
   --admin-error: #b91c1c;
   --admin-error-bg: #fef2f2;
   --admin-error-border: #fecaca;
+  --admin-info: #1d4ed8;
+  --admin-info-bg: #eff6ff;
+  --admin-info-border: #bfdbfe;
 }
 
 .admin-profile-page {
@@ -138,6 +141,12 @@
   background-color: var(--admin-error-bg);
   color: var(--admin-error);
   border: 1px solid var(--admin-error-border);
+}
+
+.toast-banner-info {
+  background-color: var(--admin-info-bg);
+  color: var(--admin-info);
+  border: 1px solid var(--admin-info-border);
 }
 
 .toast-content {
@@ -586,6 +595,63 @@
   font-size: 0.75rem;
   color: var(--admin-error);
   font-weight: 500;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper .form-input {
+  padding-right: 2.75rem;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--admin-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: color 0.15s ease;
+}
+
+.password-toggle-btn:hover {
+  color: var(--admin-primary);
+}
+
+.security-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.security-card-full {
+  grid-column: 1 / -1;
+}
+
+.security-info-box {
+  background-color: #fbf9f6;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-sm);
+  padding: 0.85rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--admin-text-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  line-height: 1.45;
+}
+
+.security-info-icon {
+  color: var(--admin-gold);
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .card-actions-bar {
