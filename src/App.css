@@ -1,0 +1,20 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  gap: 1rem;
+}
+
+.app-container h1 {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.app-container p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+}
