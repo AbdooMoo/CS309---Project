@@ -1,12 +1,11 @@
-/* Base CSS Reset & Theme Foundation */
 :root {
-  --primary: #1e40af;
-  --primary-hover: #1d4ed8;
-  --background: #f8fafc;
+  --primary: #581825;
+  --primary-hover: #6e1f2f;
+  --background: #fbf8f3;
   --surface: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
+  --text-main: #1f191b;
+  --text-muted: #786f71;
+  --border: #e8e1d7;
 }
 
 * {
