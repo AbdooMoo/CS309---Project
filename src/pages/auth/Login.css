@@ -395,7 +395,10 @@
 }
 
 .feedback-icon {
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .login-form {

@@ -281,7 +281,11 @@ export default function Login({ onNavigateToRegister }) {
 
             {loginFeedback && (
               <div className={`feedback-alert ${loginFeedback.type}`}>
-                <span className="feedback-icon">&check;</span>
+                <span className="feedback-icon">
+                  <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="4 11 8 15 16 6" />
+                  </svg>
+                </span>
                 <span>{loginFeedback.message}</span>
               </div>
             )}
@@ -481,7 +485,11 @@ export default function Login({ onNavigateToRegister }) {
             <div className="modal-content">
               {forgotSubmitted ? (
                 <div className="forgot-success">
-                  <div className="success-badge">&check;</div>
+                  <div className="success-badge">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
                   <h4>Password reset email sent</h4>
                   <p>
                     We sent a secure password reset link to <strong>{forgotEmail}</strong>. Please check your university inbox.
