@@ -163,13 +163,18 @@ export default function AdminProfile() {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      setToast({ type: 'error', message: 'Please select an image file (PNG, JPG, or WEBP).' });
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+    const hasValidExtension = /\.(png|jpe?g|webp)$/i.test(file.name || '');
+
+    if (!allowedTypes.includes(file.type.toLowerCase()) && !hasValidExtension) {
+      setToast({ type: 'error', message: 'Invalid file format. Please upload a PNG, JPG, or WEBP image.' });
+      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setToast({ type: 'error', message: 'Image size exceeds the maximum limit of 5MB.' });
+      setToast({ type: 'error', message: 'Image size exceeds the 5MB maximum limit. Please choose a smaller file.' });
+      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
@@ -177,6 +182,10 @@ export default function AdminProfile() {
     reader.onload = () => {
       setPreviewImage(reader.result);
       setPreviewFileName(file.name);
+    };
+    reader.onerror = () => {
+      setToast({ type: 'error', message: 'An error occurred while loading the image. Please try again.' });
+      if (fileInputRef.current) fileInputRef.current.value = '';
     };
     reader.readAsDataURL(file);
   };
@@ -361,7 +370,7 @@ export default function AdminProfile() {
                 type="file"
                 ref={fileInputRef}
                 className="file-input-hidden"
-                accept="image/*"
+                accept="image/png,image/jpeg,image/webp"
                 onChange={handleImageSelect}
               />
             </div>
