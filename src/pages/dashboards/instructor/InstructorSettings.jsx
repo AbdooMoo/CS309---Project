@@ -19,7 +19,6 @@ export default function InstructorSettings() {
 
   return (
     <div className="instructor-subview-container">
-      {/* Subview Header */}
       <div className="subview-header-row">
         <div>
           <span className="subview-pretag">PORTAL PREFERENCES</span>
@@ -48,7 +47,6 @@ export default function InstructorSettings() {
       )}
 
       <form onSubmit={handleSaveSettings} className="settings-cards-stack">
-        {/* Card 1: Anti-Fraud & Dynamic QR Controls */}
         <div className="settings-section-card">
           <div className="settings-card-header">
             <span className="settings-section-icon">🛡️</span>
@@ -108,7 +106,6 @@ export default function InstructorSettings() {
           </div>
         </div>
 
-        {/* Card 2: Faculty Compliance Bylaws */}
         <div className="settings-section-card">
           <div className="settings-card-header">
             <span className="settings-section-icon">🏛️</span>
@@ -167,7 +164,6 @@ export default function InstructorSettings() {
           </div>
         </div>
 
-        {/* Card 3: Notifications & Audio */}
         <div className="settings-section-card">
           <div className="settings-card-header">
             <span className="settings-section-icon">🔔</span>
@@ -214,7 +210,6 @@ export default function InstructorSettings() {
           </div>
         </div>
 
-        {/* Save button row */}
         <div className="settings-footer-save">
           <button type="submit" className="btn-primary-wine btn-large">
             Save All Preferences &rarr;

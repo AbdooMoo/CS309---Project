@@ -22,7 +22,6 @@ export default function InstructorProfile({ onProfileUpdated }) {
 
   return (
     <div className="instructor-subview-container">
-      {/* Subview Header */}
       <div className="subview-header-row">
         <div>
           <span className="subview-pretag">FACULTY IDENTITY &amp; CREDENTIALS</span>
@@ -50,7 +49,6 @@ export default function InstructorProfile({ onProfileUpdated }) {
         </div>
       )}
 
-      {/* Official Faculty Digital ID Card */}
       <div className="faculty-digital-id-card-wrapper">
         <div className="faculty-id-card">
           <div className="faculty-id-header">
@@ -121,7 +119,6 @@ export default function InstructorProfile({ onProfileUpdated }) {
         </div>
       </div>
 
-      {/* Profile Details or Edit Form */}
       {isEditing ? (
         <div className="profile-edit-card">
           <h3 className="card-title-serif">Update Faculty Information</h3>
@@ -188,7 +185,6 @@ export default function InstructorProfile({ onProfileUpdated }) {
         </div>
       ) : (
         <div className="overview-split-layout" style={{ marginTop: '2rem' }}>
-          {/* Academic Details */}
           <div className="overview-column-card">
             <div className="column-card-header">
               <div className="header-title-group">
@@ -217,7 +213,6 @@ export default function InstructorProfile({ onProfileUpdated }) {
             </div>
           </div>
 
-          {/* Research & Courses */}
           <div className="overview-column-card">
             <div className="column-card-header">
               <div className="header-title-group">

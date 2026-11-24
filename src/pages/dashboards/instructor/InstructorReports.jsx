@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ATTENDANCE_WEEKLY_TRENDS, AT_RISK_STUDENTS } from './instructorData';
 
 export default function InstructorReports({ courses }) {
-  // Multi-course Report Cart state
   const [selectedCourseIds, setSelectedCourseIds] = useState(['cs-309', 'cs-301']);
   const [reportFormat, setReportFormat] = useState('pdf');
   const [reportSemester, setReportSemester] = useState('Fall 2026 (Full Semester)');
@@ -37,7 +36,6 @@ export default function InstructorReports({ courses }) {
 
   return (
     <div className="instructor-subview-container">
-      {/* Subview Header */}
       <div className="subview-header-row">
         <div>
           <span className="subview-pretag">ANALYTICS &amp; COMPLIANCE</span>
@@ -48,7 +46,6 @@ export default function InstructorReports({ courses }) {
         </div>
       </div>
 
-      {/* 1. Feature Highlight: The Report Cart */}
       <div className="report-cart-featured-box">
         <div className="cart-header-row">
           <div className="cart-title-group">
@@ -70,7 +67,6 @@ export default function InstructorReports({ courses }) {
           </button>
         </div>
 
-        {/* Course Checkbox Selectors */}
         <div className="cart-courses-checklist">
           {courses.map((course) => {
             const isChecked = selectedCourseIds.includes(course.id);
@@ -100,7 +96,6 @@ export default function InstructorReports({ courses }) {
           })}
         </div>
 
-        {/* Report Configuration and Action */}
         <div className="cart-options-bar">
           <div className="cart-options-left">
             <div className="cart-param-group">
@@ -147,7 +142,6 @@ export default function InstructorReports({ courses }) {
         </div>
       </div>
 
-      {/* 2. Visual Weekly Attendance Trend Chart */}
       <div className="overview-column-card" style={{ marginTop: '2rem' }}>
         <div className="column-card-header">
           <div className="header-title-group">
@@ -179,7 +173,6 @@ export default function InstructorReports({ courses }) {
         </div>
       </div>
 
-      {/* 3. At-Risk Warning List (Below 75% threshold) */}
       <div className="overview-column-card" style={{ marginTop: '2rem' }}>
         <div className="column-card-header">
           <div className="header-title-group">
@@ -245,7 +238,6 @@ export default function InstructorReports({ courses }) {
         </div>
       </div>
 
-      {/* Report Preview Modal */}
       {showReportPreview && (
         <div className="unitrack-modal-overlay" onClick={() => setShowReportPreview(false)}>
           <div className="report-preview-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -269,7 +261,6 @@ export default function InstructorReports({ courses }) {
               </div>
             </div>
 
-            {/* Official Cairo University Science Document Layout */}
             <div className="official-report-sheet">
               <div className="report-sheet-header">
                 <div className="sheet-crest">

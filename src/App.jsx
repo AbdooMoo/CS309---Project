@@ -93,66 +93,8 @@ export default function App() {
     }
   };
 
-  const currentPath = location.pathname.toLowerCase();
-  const isHomeActive = currentPath === '/' || currentPath === '/home';
-  const isLoginActive = currentPath.includes('login');
-  const isRegisterActive = currentPath.includes('register');
-  const isProfileActive =
-    currentPath.includes('profile') ||
-    currentPath.includes('student');
-  const isInstructorActive = currentPath.includes('instructor');
-  const isAdminActive = currentPath.includes('admin');
-
   return (
     <div className="app-root">
-      <aside className="portal-dev-switcher" aria-label="Portal Navigation Bar">
-        <span className="switcher-title">UniTrack Portals:</span>
-        <div className="switcher-buttons">
-          <button
-            type="button"
-            className={`switcher-pill ${isHomeActive ? 'active' : ''}`}
-            onClick={() => navigate('/')}
-          >
-            Home
-          </button>
-          <button
-            type="button"
-            className={`switcher-pill ${isLoginActive ? 'active' : ''}`}
-            onClick={() => navigate('/login')}
-          >
-            Sign In
-          </button>
-          <button
-            type="button"
-            className={`switcher-pill ${isRegisterActive ? 'active' : ''}`}
-            onClick={() => navigate('/register')}
-          >
-            Register
-          </button>
-          <button
-            type="button"
-            className={`switcher-pill ${isProfileActive && !isHomeActive ? 'active' : ''}`}
-            onClick={() => navigate('/profile')}
-          >
-            Student ID
-          </button>
-          <button
-            type="button"
-            className={`switcher-pill ${isInstructorActive ? 'active' : ''}`}
-            onClick={() => navigate('/instructor')}
-          >
-            Instructor
-          </button>
-          <button
-            type="button"
-            className={`switcher-pill ${isAdminActive ? 'active' : ''}`}
-            onClick={() => navigate('/admin')}
-          >
-            Admin
-          </button>
-        </div>
-      </aside>
-
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<LandingPage />} />

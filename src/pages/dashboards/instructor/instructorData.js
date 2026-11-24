@@ -1,5 +1,3 @@
-// Mock data for UniTrack Instructor Portal — Faculty of Science, Cairo University
-
 export const INSTRUCTOR_PROFILE = {
   name: 'Prof. Dr. Moustafa Hamed',
   title: 'Professor of Computer Science & Software Systems',
@@ -123,7 +121,7 @@ export const INITIAL_SESSIONS = [
     absentCount: 9,
     excusedCount: 3,
     attendanceRate: 86.4,
-    status: 'Live', // 'Live' | 'Completed' | 'Upcoming'
+    status: 'Live',
     expiresInSeconds: 154,
     geofenceActive: true,
     dynamicRefreshSeconds: 15,
@@ -240,7 +238,7 @@ export const INITIAL_STUDENTS = [
     department: 'Computer Science',
     faculty: 'Faculty of Science',
     overallAttendance: 95.2,
-    riskLevel: 'good', // 'good' | 'warning' | 'critical'
+    riskLevel: 'good',
     digitalIdStatus: 'Verified & Active',
     avatarInitials: 'MA',
     coursesEnrolled: ['CS 309', 'CS 301'],
