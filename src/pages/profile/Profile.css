@@ -1,18 +1,18 @@
 :root {
-  --wine-primary: #581825;
-  --wine-dark: #3f101a;
-  --wine-hover: #6e1f2f;
+  --wine-primary: #45121e;
+  --wine-dark: #2d1117;
+  --wine-darker: #200a0e;
+  --wine-hover: #581825;
   --wine-light: #f5eaec;
   --gold-accent: #c29d62;
   --gold-muted: #e4cda4;
   --bg-cream: #fbf8f3;
   --card-bg: #ffffff;
-  --text-dark: #1f191b;
-  --text-muted: #786f71;
-  --border-light: #e8e1d7;
-  --input-bg: #ffffff;
-  --error-color: #dc2626;
-  --error-bg: #fef2f2;
+  --text-dark: #111827;
+  --text-body: #1f191b;
+  --text-muted: #4b5563;
+  --border-light: #e5e7eb;
+  --border-subtle: #e8e1d7;
 }
 
 .profile-page-wrapper {
@@ -27,9 +27,9 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--wine-dark);
-  border-bottom: 1px solid rgba(194, 157, 98, 0.35);
-  box-shadow: 0 4px 20px rgba(45, 17, 23, 0.28);
+  background-color: var(--wine-darker);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .profile-nav-container {
@@ -52,16 +52,16 @@
   width: 36px;
   height: 36px;
   border-radius: 9px;
-  background: rgba(194, 157, 98, 0.16);
-  border: 1px solid rgba(194, 157, 98, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gold-accent);
+  color: #fbf8f3;
 }
 
 .profile-brand-icon svg {
-  stroke: var(--gold-accent);
+  stroke: #fbf8f3;
 }
 
 .profile-brand-titles {
@@ -73,7 +73,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.45rem;
   font-weight: 700;
-  color: #fbf8f3;
+  color: #ffffff;
   letter-spacing: 0.04em;
   line-height: 1.15;
 }
@@ -82,7 +82,7 @@
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.12em;
-  color: var(--gold-muted);
+  color: #d1d5db;
   text-transform: uppercase;
 }
 
@@ -117,20 +117,19 @@
 }
 
 .profile-nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(194, 157, 98, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
 
 .profile-nav-link.active {
   background-color: var(--wine-primary);
-  border-color: var(--gold-accent);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .profile-nav-link.active svg {
-  stroke: var(--gold-accent);
+  stroke: #ffffff;
 }
 
 .profile-main-wrapper {
@@ -141,19 +140,18 @@
 
 .profile-main-card {
   background-color: var(--card-bg);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 20px 45px -12px rgba(45, 17, 23, 0.1), 0 1px 3px rgba(45, 17, 23, 0.05);
+  box-shadow: 0 20px 45px -12px rgba(32, 10, 14, 0.12), 0 1px 3px rgba(32, 10, 14, 0.05);
 }
 
 .profile-top-band {
-  background: linear-gradient(135deg, var(--wine-primary) 0%, var(--wine-dark) 100%);
-  border-bottom: 2px solid var(--gold-accent);
+  background: linear-gradient(135deg, var(--wine-dark) 0%, var(--wine-darker) 100%);
+  border-bottom: 2px solid var(--wine-primary);
   padding: 2.2rem 2.6rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 2rem;
   position: relative;
 }
@@ -175,9 +173,9 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: var(--wine-light);
-  border: 4px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 24px rgba(45, 17, 23, 0.3);
+  background-color: #f3f4f6;
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,7 +188,7 @@
 
 .photo-placeholder:hover {
   transform: scale(1.02);
-  border-color: var(--gold-accent);
+  border-color: #ffffff;
 }
 
 .photo-placeholder input[type="file"] {
@@ -214,7 +212,7 @@
 }
 
 .photo-content svg {
-  stroke: var(--wine-primary);
+  stroke: var(--wine-dark);
 }
 
 .photo-label {
@@ -222,20 +220,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--wine-primary);
-}
-
-.status-dot {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: #16a34a;
-  border: 2.5px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  pointer-events: none;
+  color: var(--wine-dark);
 }
 
 .identity-block {
@@ -247,10 +232,10 @@
 }
 
 .faculty-tag {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--gold-accent);
+  letter-spacing: 0.14em;
+  color: #e5e7eb;
   text-transform: uppercase;
 }
 
@@ -258,41 +243,18 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 2.15rem;
   font-weight: 700;
-  color: #fcf9f5;
+  color: #ffffff;
   line-height: 1.15;
   margin: 0;
   letter-spacing: -0.01em;
 }
 
 .student-subtitle {
-  font-size: 0.95rem;
-  color: var(--gold-muted);
+  font-size: 0.96rem;
+  color: #d1d5db;
   font-weight: 500;
   letter-spacing: 0.02em;
   margin: 0;
-}
-
-.profile-top-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: 20px;
-  background: rgba(194, 157, 98, 0.15);
-  border: 1px solid rgba(194, 157, 98, 0.4);
-  color: var(--gold-muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
-
-.profile-top-badge .badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #22c55e;
-  box-shadow: 0 0 6px #22c55e;
 }
 
 .info-grid {
@@ -304,7 +266,7 @@
 
 .info-box {
   background-color: var(--bg-cream);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   padding: 1.15rem 1.25rem;
   display: flex;
@@ -315,9 +277,9 @@
 
 .info-box:hover {
   background-color: var(--card-bg);
-  border-color: var(--gold-accent);
+  border-color: var(--wine-primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(45, 17, 23, 0.08);
+  box-shadow: 0 8px 22px rgba(32, 10, 14, 0.08);
 }
 
 .info-icon-square {
@@ -325,16 +287,16 @@
   height: 44px;
   min-width: 44px;
   background-color: var(--wine-light);
-  border: 1px solid rgba(88, 24, 37, 0.1);
+  border: 1px solid rgba(69, 18, 30, 0.12);
   border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--wine-primary);
+  color: var(--wine-dark);
 }
 
 .info-icon-square svg {
-  stroke: var(--wine-primary);
+  stroke: var(--wine-dark);
 }
 
 .info-content {
@@ -354,7 +316,7 @@
 
 .info-value {
   font-size: 0.98rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-dark);
   white-space: nowrap;
   overflow: hidden;
@@ -364,7 +326,7 @@
 .digital-id-strip {
   margin: 0 2.6rem 2.4rem;
   background-color: var(--bg-cream);
-  border: 1.5px dashed var(--gold-accent);
+  border: 1.5px dashed var(--border-subtle);
   border-radius: 16px;
   padding: 1.3rem 1.6rem;
   display: flex;
@@ -375,12 +337,12 @@
 .qr-container {
   background-color: #ffffff;
   border-radius: 12px;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
   padding: 0.55rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(45, 17, 23, 0.08);
+  box-shadow: 0 4px 14px rgba(32, 10, 14, 0.08);
   width: 104px;
   height: 104px;
   min-width: 104px;
@@ -399,18 +361,18 @@
 }
 
 .digital-id-tag {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--wine-primary);
+  color: var(--wine-dark);
 }
 
 .digital-id-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--wine-primary);
+  color: var(--text-dark);
   margin: 0;
   line-height: 1.2;
 }
@@ -441,7 +403,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.7rem;
   font-weight: 700;
-  color: var(--wine-primary);
+  color: var(--text-dark);
   white-space: nowrap;
   margin: 0;
 }
@@ -449,17 +411,17 @@
 .section-divider {
   flex: 1;
   height: 2px;
-  background: linear-gradient(90deg, var(--gold-accent) 0%, var(--border-light) 60%, transparent 100%);
+  background: var(--border-subtle);
 }
 
 .semester-badge {
   padding: 0.4rem 0.9rem;
   border-radius: 20px;
-  background-color: var(--wine-light);
-  border: 1px solid rgba(88, 24, 37, 0.15);
-  color: var(--wine-primary);
+  background-color: #f3f4f6;
+  border: 1px solid var(--border-light);
+  color: var(--text-dark);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -474,19 +436,19 @@
   border: 1px solid var(--border-light);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 25px -5px rgba(45, 17, 23, 0.06);
+  box-shadow: 0 10px 25px -5px rgba(32, 10, 14, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .course-card:hover {
   transform: translateY(-4px);
-  border-color: var(--gold-accent);
-  box-shadow: 0 18px 36px -8px rgba(45, 17, 23, 0.14);
+  border-color: var(--wine-dark);
+  box-shadow: 0 18px 36px -8px rgba(32, 10, 14, 0.14);
 }
 
 .course-header {
-  background-color: var(--wine-light);
-  border-bottom: 2px solid var(--gold-muted);
+  background-color: #f9fafb;
+  border-bottom: 2px solid var(--border-light);
   padding: 1.1rem 1.4rem;
   display: flex;
   align-items: center;
@@ -503,26 +465,26 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--wine-primary);
+  color: var(--text-dark);
   line-height: 1.1;
 }
 
 .course-name {
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-dark);
 }
 
 .attendance-pill {
-  background: var(--wine-primary);
+  background: var(--wine-dark);
   color: #ffffff;
-  border: 1px solid var(--gold-accent);
+  border: 1px solid var(--wine-darker);
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 0.98rem;
   font-weight: 700;
   padding: 0.35rem 0.9rem;
   border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(45, 17, 23, 0.25);
+  box-shadow: 0 2px 8px rgba(32, 10, 14, 0.25);
 }
 
 .course-body {
@@ -537,23 +499,23 @@
 }
 
 .progress-label {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: var(--text-dark);
 }
 
 .progress-ratio {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--wine-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dark);
 }
 
 .progress-track {
   width: 100%;
   height: 10px;
-  background-color: var(--border-light);
+  background-color: #e5e7eb;
   border-radius: 9999px;
   overflow: hidden;
   margin-bottom: 1.25rem;
@@ -562,7 +524,7 @@
 .progress-fill {
   height: 100%;
   border-radius: 9999px;
-  background: linear-gradient(90deg, var(--wine-primary) 0%, var(--wine-hover) 65%, var(--gold-accent) 100%);
+  background: linear-gradient(90deg, var(--wine-primary) 0%, var(--wine-darker) 100%);
   transition: width 0.6s ease;
 }
 
@@ -573,7 +535,7 @@
 }
 
 .stat-box {
-  background-color: var(--bg-cream);
+  background-color: #f9fafb;
   border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 0.9rem 1rem;
@@ -585,7 +547,7 @@
 }
 
 .stat-box:hover {
-  border-color: var(--gold-accent);
+  border-color: var(--wine-dark);
 }
 
 .stat-label {
@@ -598,9 +560,9 @@
 
 .stat-value {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.55rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  color: var(--wine-primary);
+  color: var(--text-dark);
   line-height: 1.1;
 }
 

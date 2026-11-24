@@ -132,7 +132,7 @@ export default function Profile({ onNavigateHome }) {
                     <img src={photoPreview} alt="Student Profile" className="photo-preview" />
                   ) : (
                     <div className="photo-content">
-                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#581825" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2d1117" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                       </svg>
@@ -140,7 +140,6 @@ export default function Profile({ onNavigateHome }) {
                     </div>
                   )}
                 </label>
-                <div className="status-dot"></div>
               </div>
 
               <div className="identity-block">
@@ -148,11 +147,6 @@ export default function Profile({ onNavigateHome }) {
                 <h1 className="student-name">Sarah Ahmed</h1>
                 <p className="student-subtitle">Computer Science Student &bull; Level 3 (Class of 2026)</p>
               </div>
-            </div>
-
-            <div className="profile-top-badge">
-              <span className="badge-dot"></span>
-              <span>Enrolled &bull; Verified ID</span>
             </div>
           </div>
 
@@ -218,31 +212,31 @@ export default function Profile({ onNavigateHome }) {
           <div className="digital-id-strip">
             <div className="qr-container">
               <svg className="qr-svg" viewBox="0 0 25 25" shape-rendering="crispEdges">
-                <rect x="0" y="0" width="7" height="7" fill="#581825" />
+                <rect x="0" y="0" width="7" height="7" fill="#2d1117" />
                 <rect x="1" y="1" width="5" height="5" fill="#FFFFFF" />
-                <rect x="2" y="2" width="3" height="3" fill="#581825" />
+                <rect x="2" y="2" width="3" height="3" fill="#2d1117" />
 
-                <rect x="18" y="0" width="7" height="7" fill="#581825" />
+                <rect x="18" y="0" width="7" height="7" fill="#2d1117" />
                 <rect x="19" y="1" width="5" height="5" fill="#FFFFFF" />
-                <rect x="20" y="2" width="3" height="3" fill="#581825" />
+                <rect x="20" y="2" width="3" height="3" fill="#2d1117" />
 
-                <rect x="0" y="18" width="7" height="7" fill="#581825" />
+                <rect x="0" y="18" width="7" height="7" fill="#2d1117" />
                 <rect x="1" y="19" width="5" height="5" fill="#FFFFFF" />
-                <rect x="2" y="20" width="3" height="3" fill="#581825" />
+                <rect x="2" y="20" width="3" height="3" fill="#2d1117" />
 
-                <rect x="8" y="6" width="1" height="1" fill="#581825" />
-                <rect x="10" y="6" width="1" height="1" fill="#581825" />
-                <rect x="12" y="6" width="1" height="1" fill="#581825" />
-                <rect x="14" y="6" width="1" height="1" fill="#581825" />
-                <rect x="16" y="6" width="1" height="1" fill="#581825" />
+                <rect x="8" y="6" width="1" height="1" fill="#2d1117" />
+                <rect x="10" y="6" width="1" height="1" fill="#2d1117" />
+                <rect x="12" y="6" width="1" height="1" fill="#2d1117" />
+                <rect x="14" y="6" width="1" height="1" fill="#2d1117" />
+                <rect x="16" y="6" width="1" height="1" fill="#2d1117" />
 
-                <rect x="6" y="8" width="1" height="1" fill="#581825" />
-                <rect x="6" y="10" width="1" height="1" fill="#581825" />
-                <rect x="6" y="12" width="1" height="1" fill="#581825" />
-                <rect x="6" y="14" width="1" height="1" fill="#581825" />
-                <rect x="6" y="16" width="1" height="1" fill="#581825" />
+                <rect x="6" y="8" width="1" height="1" fill="#2d1117" />
+                <rect x="6" y="10" width="1" height="1" fill="#2d1117" />
+                <rect x="6" y="12" width="1" height="1" fill="#2d1117" />
+                <rect x="6" y="14" width="1" height="1" fill="#2d1117" />
+                <rect x="6" y="16" width="1" height="1" fill="#2d1117" />
 
-                <path fill="#581825" d="M8,1h1v1h-1z M10,1h2v1h-2z M13,1h1v1h-1z M15,1h2v1h-2z M8,3h2v1h-2z M12,3h1v1h-1z M14,3h2v1h-2z M9,4h3v1h-3z M13,4h1v1h-1z M15,4h1v1h-1z M8,8h2v2h-2z M11,8h1v1h-1z M13,8h2v1h-2z M16,8h1v2h-1z M19,8h2v1h-2z M22,8h2v1h-2z M8,10h1v1h-1z M10,10h2v1h-2z M13,10h1v2h-1z M17,10h2v1h-2z M21,10h1v1h-1z M23,10h1v1h-1z M9,12h2v1h-2z M12,12h2v1h-2z M16,12h1v1h-1z M18,12h2v2h-2z M21,12h3v1h-3z M8,14h1v2h-1z M10,14h2v1h-2z M13,14h1v1h-1z M15,14h2v1h-2z M22,14h2v1h-2z M9,16h3v1h-3z M14,16h2v1h-2z M18,16h1v1h-1z M20,16h2v2h-2z M23,16h1v1h-1z M8,18h2v1h-2z M11,18h1v2h-1z M14,18h1v1h-1z M17,18h2v1h-2z M21,18h1v1h-1z M8,20h1v1h-1z M10,20h2v1h-2z M13,20h2v1h-2z M17,20h1v2h-1z M19,20h2v1h-2z M23,20h1v2h-1z M9,22h1v2h-1z M11,22h3v1h-3z M15,22h1v1h-1z M18,22h2v1h-2z M21,22h2v1h-2z M10,24h2v1h-2z M13,24h1v1h-1z M16,24h3v1h-3z M20,24h1v1h-1z M23,24h1v1h-1z" />
+                <path fill="#2d1117" d="M8,1h1v1h-1z M10,1h2v1h-2z M13,1h1v1h-1z M15,1h2v1h-2z M8,3h2v1h-2z M12,3h1v1h-1z M14,3h2v1h-2z M9,4h3v1h-3z M13,4h1v1h-1z M15,4h1v1h-1z M8,8h2v2h-2z M11,8h1v1h-1z M13,8h2v1h-2z M16,8h1v2h-1z M19,8h2v1h-2z M22,8h2v1h-2z M8,10h1v1h-1z M10,10h2v1h-2z M13,10h1v2h-1z M17,10h2v1h-2z M21,10h1v1h-1z M23,10h1v1h-1z M9,12h2v1h-2z M12,12h2v1h-2z M16,12h1v1h-1z M18,12h2v2h-2z M21,12h3v1h-3z M8,14h1v2h-1z M10,14h2v1h-2z M13,14h1v1h-1z M15,14h2v1h-2z M22,14h2v1h-2z M9,16h3v1h-3z M14,16h2v1h-2z M18,16h1v1h-1z M20,16h2v2h-2z M23,16h1v1h-1z M8,18h2v1h-2z M11,18h1v2h-1z M14,18h1v1h-1z M17,18h2v1h-2z M21,18h1v1h-1z M8,20h1v1h-1z M10,20h2v1h-2z M13,20h2v1h-2z M17,20h1v2h-1z M19,20h2v1h-2z M23,20h1v2h-1z M9,22h1v2h-1z M11,22h3v1h-3z M15,22h1v1h-1z M18,22h2v1h-2z M21,22h2v1h-2z M10,24h2v1h-2z M13,24h1v1h-1z M16,24h3v1h-3z M20,24h1v1h-1z M23,24h1v1h-1z" />
               </svg>
             </div>
             <div className="digital-id-content">
