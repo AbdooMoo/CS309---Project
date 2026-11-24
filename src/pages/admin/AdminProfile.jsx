@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './AdminProfile.css';
 
 const INITIAL_PROFILE = {
@@ -52,6 +52,14 @@ export default function AdminProfile() {
     new: false,
     confirm: false
   });
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => {
+      setToast(null);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const validatePersonalForm = () => {
     const errs = {};
@@ -310,7 +318,11 @@ export default function AdminProfile() {
 
       <main className="admin-container">
         {toast && (
-          <div className={`toast-banner toast-banner-${toast.type}`}>
+          <div
+            className={`toast-banner toast-banner-${toast.type}`}
+            role="status"
+            aria-live="polite"
+          >
             <div className="toast-content">
               {toast.type === 'success' && (
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -337,6 +349,7 @@ export default function AdminProfile() {
               type="button"
               className="toast-close-btn"
               onClick={() => setToast(null)}
+              aria-label="Dismiss notification"
             >
               &times;
             </button>
@@ -359,6 +372,7 @@ export default function AdminProfile() {
                 type="button"
                 className="avatar-upload-btn"
                 title="Upload Profile Picture"
+                aria-label="Upload profile picture"
                 onClick={handleTriggerUpload}
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -506,8 +520,10 @@ export default function AdminProfile() {
                       className={`form-input ${errors.fullName ? 'form-input-error' : ''}`}
                       value={personalForm.fullName}
                       onChange={handlePersonalChange}
+                      aria-invalid={!!errors.fullName}
+                      aria-describedby={errors.fullName ? 'fullName-error' : undefined}
                     />
-                    {errors.fullName && <span className="form-error-msg">{errors.fullName}</span>}
+                    {errors.fullName && <span id="fullName-error" className="form-error-msg">{errors.fullName}</span>}
                   </div>
 
                   <div className="input-field-group">
@@ -521,8 +537,10 @@ export default function AdminProfile() {
                       className={`form-input ${errors.email ? 'form-input-error' : ''}`}
                       value={personalForm.email}
                       onChange={handlePersonalChange}
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                     />
-                    {errors.email && <span className="form-error-msg">{errors.email}</span>}
+                    {errors.email && <span id="email-error" className="form-error-msg">{errors.email}</span>}
                   </div>
 
                   <div className="input-field-group">
@@ -536,8 +554,10 @@ export default function AdminProfile() {
                       className={`form-input ${errors.phone ? 'form-input-error' : ''}`}
                       value={personalForm.phone}
                       onChange={handlePersonalChange}
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? 'phone-error' : undefined}
                     />
-                    {errors.phone && <span className="form-error-msg">{errors.phone}</span>}
+                    {errors.phone && <span id="phone-error" className="form-error-msg">{errors.phone}</span>}
                   </div>
 
                   <div className="input-field-group">
@@ -551,8 +571,10 @@ export default function AdminProfile() {
                       className={`form-input ${errors.department ? 'form-input-error' : ''}`}
                       value={personalForm.department}
                       onChange={handlePersonalChange}
+                      aria-invalid={!!errors.department}
+                      aria-describedby={errors.department ? 'department-error' : undefined}
                     />
-                    {errors.department && <span className="form-error-msg">{errors.department}</span>}
+                    {errors.department && <span id="department-error" className="form-error-msg">{errors.department}</span>}
                   </div>
 
                   <div className="input-field-group info-field-full">
@@ -566,8 +588,10 @@ export default function AdminProfile() {
                       className={`form-input ${errors.jobTitle ? 'form-input-error' : ''}`}
                       value={personalForm.jobTitle}
                       onChange={handlePersonalChange}
+                      aria-invalid={!!errors.jobTitle}
+                      aria-describedby={errors.jobTitle ? 'jobTitle-error' : undefined}
                     />
-                    {errors.jobTitle && <span className="form-error-msg">{errors.jobTitle}</span>}
+                    {errors.jobTitle && <span id="jobTitle-error" className="form-error-msg">{errors.jobTitle}</span>}
                   </div>
                 </div>
 
@@ -715,12 +739,14 @@ export default function AdminProfile() {
                       placeholder="Enter current password"
                       value={passwordForm.currentPassword}
                       onChange={handlePasswordChange}
+                      aria-invalid={!!passwordErrors.currentPassword}
+                      aria-describedby={passwordErrors.currentPassword ? 'currentPassword-error' : undefined}
                     />
                     <button
                       type="button"
                       className="password-toggle-btn"
                       onClick={() => togglePasswordVisibility('current')}
-                      aria-label="Toggle password visibility"
+                      aria-label={showPasswords.current ? 'Hide current password' : 'Show current password'}
                     >
                       {showPasswords.current ? (
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -736,7 +762,7 @@ export default function AdminProfile() {
                     </button>
                   </div>
                   {passwordErrors.currentPassword && (
-                    <span className="form-error-msg">{passwordErrors.currentPassword}</span>
+                    <span id="currentPassword-error" className="form-error-msg">{passwordErrors.currentPassword}</span>
                   )}
                 </div>
 
@@ -753,12 +779,14 @@ export default function AdminProfile() {
                       placeholder="Enter new password (min. 6 characters)"
                       value={passwordForm.newPassword}
                       onChange={handlePasswordChange}
+                      aria-invalid={!!passwordErrors.newPassword}
+                      aria-describedby={passwordErrors.newPassword ? 'newPassword-error' : undefined}
                     />
                     <button
                       type="button"
                       className="password-toggle-btn"
                       onClick={() => togglePasswordVisibility('new')}
-                      aria-label="Toggle password visibility"
+                      aria-label={showPasswords.new ? 'Hide new password' : 'Show new password'}
                     >
                       {showPasswords.new ? (
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -774,7 +802,7 @@ export default function AdminProfile() {
                     </button>
                   </div>
                   {passwordErrors.newPassword && (
-                    <span className="form-error-msg">{passwordErrors.newPassword}</span>
+                    <span id="newPassword-error" className="form-error-msg">{passwordErrors.newPassword}</span>
                   )}
                 </div>
 
@@ -791,12 +819,14 @@ export default function AdminProfile() {
                       placeholder="Confirm new password"
                       value={passwordForm.confirmPassword}
                       onChange={handlePasswordChange}
+                      aria-invalid={!!passwordErrors.confirmPassword}
+                      aria-describedby={passwordErrors.confirmPassword ? 'confirmPassword-error' : undefined}
                     />
                     <button
                       type="button"
                       className="password-toggle-btn"
                       onClick={() => togglePasswordVisibility('confirm')}
-                      aria-label="Toggle password visibility"
+                      aria-label={showPasswords.confirm ? 'Hide confirmation password' : 'Show confirmation password'}
                     >
                       {showPasswords.confirm ? (
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -812,7 +842,7 @@ export default function AdminProfile() {
                     </button>
                   </div>
                   {passwordErrors.confirmPassword && (
-                    <span className="form-error-msg">{passwordErrors.confirmPassword}</span>
+                    <span id="confirmPassword-error" className="form-error-msg">{passwordErrors.confirmPassword}</span>
                   )}
                 </div>
               </div>
