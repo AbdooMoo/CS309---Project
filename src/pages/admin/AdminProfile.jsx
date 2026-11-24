@@ -55,31 +55,43 @@ export default function AdminProfile() {
 
   const validatePersonalForm = () => {
     const errs = {};
-    if (!personalForm.fullName || !personalForm.fullName.trim()) {
+    const trimmedName = (personalForm.fullName || '').trim();
+    const trimmedEmail = (personalForm.email || '').trim();
+    const trimmedPhone = (personalForm.phone || '').trim();
+    const trimmedDept = (personalForm.department || '').trim();
+    const trimmedJob = (personalForm.jobTitle || '').trim();
+
+    if (!trimmedName) {
       errs.fullName = 'Full name is required.';
-    } else if (personalForm.fullName.trim().length < 3) {
+    } else if (trimmedName.length < 3) {
       errs.fullName = 'Full name must be at least 3 characters.';
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!personalForm.email || !personalForm.email.trim()) {
+    if (!trimmedEmail) {
       errs.email = 'Email address is required.';
-    } else if (!emailRegex.test(personalForm.email.trim())) {
-      errs.email = 'Please enter a valid email format.';
+    } else if (!emailRegex.test(trimmedEmail)) {
+      errs.email = 'Please enter a valid email format (e.g. user@university.edu).';
     }
 
-    if (!personalForm.phone || !personalForm.phone.trim()) {
+    const phoneRegex = /^\+?[0-9\s\-()]{8,20}$/;
+    const phoneDigits = trimmedPhone.replace(/\D/g, '');
+    if (!trimmedPhone) {
       errs.phone = 'Phone number is required.';
-    } else if (personalForm.phone.trim().length < 8) {
-      errs.phone = 'Please enter a valid phone number.';
+    } else if (!phoneRegex.test(trimmedPhone) || phoneDigits.length < 8) {
+      errs.phone = 'Please enter a valid international phone number (e.g. +20 100 234 5678).';
     }
 
-    if (!personalForm.department || !personalForm.department.trim()) {
+    if (!trimmedDept) {
       errs.department = 'Department is required.';
+    } else if (trimmedDept.length < 2) {
+      errs.department = 'Department must be at least 2 characters.';
     }
 
-    if (!personalForm.jobTitle || !personalForm.jobTitle.trim()) {
+    if (!trimmedJob) {
       errs.jobTitle = 'Job title is required.';
+    } else if (trimmedJob.length < 2) {
+      errs.jobTitle = 'Job title must be at least 2 characters.';
     }
 
     setErrors(errs);
