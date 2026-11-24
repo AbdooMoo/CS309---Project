@@ -232,6 +232,12 @@ export default function AdminProfile() {
       pErrs.newPassword = 'New password is required.';
     } else if (passwordForm.newPassword.length < 6) {
       pErrs.newPassword = 'New password must be at least 6 characters.';
+    } else if (!/[A-Z]/.test(passwordForm.newPassword)) {
+      pErrs.newPassword = 'New password must contain at least one uppercase letter.';
+    } else if (!/[0-9]/.test(passwordForm.newPassword)) {
+      pErrs.newPassword = 'New password must contain at least one number.';
+    } else if (!/[^A-Za-z0-9]/.test(passwordForm.newPassword)) {
+      pErrs.newPassword = 'New password must contain at least one special character.';
     } else if (passwordForm.currentPassword && passwordForm.newPassword === passwordForm.currentPassword) {
       pErrs.newPassword = 'New password must be different from current password.';
     }
@@ -682,7 +688,7 @@ export default function AdminProfile() {
                 <line x1="12" y1="16" x2="12" y2="12" />
                 <line x1="12" y1="8" x2="12.01" y2="8" />
               </svg>
-              <span>Passwords must be at least 6 characters. For university administrator security, use a combination of uppercase letters, numbers, and symbols.</span>
+              <span>Passwords must be at least 6 characters and contain at least one uppercase letter, one number, and one special character.</span>
             </div>
 
             <form onSubmit={handleSavePassword} noValidate>
