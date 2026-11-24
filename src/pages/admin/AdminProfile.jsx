@@ -16,6 +16,14 @@ const INITIAL_PROFILE = {
   profilePicture: ''
 };
 
+function getInitials(name) {
+  if (!name || typeof name !== 'string') return 'A';
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return 'A';
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+}
+
 export default function AdminProfile() {
   const [profile, setProfile] = useState(INITIAL_PROFILE);
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
@@ -316,7 +324,7 @@ export default function AdminProfile() {
                   <img src={profile.profilePicture} alt={profile.fullName} className="profile-avatar-img" />
                 ) : (
                   <div className="profile-avatar-fallback">
-                    <span>TM</span>
+                    <span>{getInitials(profile.fullName)}</span>
                   </div>
                 )}
               </div>
