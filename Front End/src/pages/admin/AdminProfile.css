@@ -450,6 +450,141 @@
   color: #1f2937;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-crud-section {
+  margin-top: 1.75rem;
+}
+
+.admin-crud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-crud-top-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-crud-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  background: #fdfbf8;
+  flex-wrap: wrap;
+}
+
+.crud-tab {
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  background: #ffffff;
+  color: var(--admin-text-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.crud-tab.active {
+  background: var(--admin-primary);
+  color: #ffffff;
+  border-color: var(--admin-primary);
+}
+
+.crud-inline-form {
+  padding: 1.25rem 1.5rem;
+  background: #fcfaf7;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.crud-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.crud-form-grid input,
+.crud-form-grid select {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: #ffffff;
+  color: var(--admin-text-main);
+}
+
+.crud-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.crud-table-wrapper {
+  overflow-x: auto;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.crud-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.crud-table th,
+.crud-table td {
+  text-align: left;
+  padding: 0.7rem 0.65rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.crud-table th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-text-muted);
+}
+
+.crud-row-actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.crud-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--admin-primary-light);
+  color: var(--admin-primary);
+  text-transform: capitalize;
+}
+
+.btn-danger-outline {
+  background: #ffffff;
+  color: var(--admin-error);
+  border: 1px solid var(--admin-error-border);
+}
+
+.btn-danger-outline:hover {
+  background: var(--admin-error-bg);
+}
+
+.crud-empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--admin-text-muted);
+}
+
 .profile-content-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;

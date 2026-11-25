@@ -1,4 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { usersApi } from '../../services/api';
+import AdminCrudManager from './AdminCrudManager';
 import './AdminProfile.css';
 
 const INITIAL_PROFILE = {
@@ -24,8 +28,13 @@ function getInitials(name) {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
-export default function AdminProfile() {
-  const [profile, setProfile] = useState(INITIAL_PROFILE);
+export default function AdminProfile({ onLogout }) {
+  const { user, updateUser, logout } = useAuth();
+  const [profile, setProfile] = useState({
+    ...INITIAL_PROFILE,
+    ...(user || {}),
+    adminId: user?.universityId || INITIAL_PROFILE.adminId,
+  });
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [personalForm, setPersonalForm] = useState({
     fullName: INITIAL_PROFILE.fullName,
@@ -142,23 +151,34 @@ export default function AdminProfile() {
     setIsEditingPersonal(false);
   };
 
-  const handleSavePersonal = (e) => {
+  const handleSavePersonal = async (e) => {
     e.preventDefault();
     if (!validatePersonalForm()) {
       return;
     }
 
-    setProfile((prev) => ({
-      ...prev,
+    const payload = {
       fullName: personalForm.fullName.trim(),
       email: personalForm.email.trim(),
       phone: personalForm.phone.trim(),
       department: personalForm.department.trim(),
       jobTitle: personalForm.jobTitle.trim()
-    }));
+    };
 
-    setIsEditingPersonal(false);
-    setToast({ type: 'success', message: 'Personal information updated successfully.' });
+    try {
+      if (user?._id) {
+        const updated = await usersApi.update(user._id, payload);
+        updateUser(updated);
+      }
+      setProfile((prev) => ({
+        ...prev,
+        ...payload
+      }));
+      setIsEditingPersonal(false);
+      setToast({ type: 'success', message: 'Personal information updated successfully.' });
+    } catch (error) {
+      setToast({ type: 'error', message: error.message || 'Failed to save changes.' });
+    }
   };
 
   const handleTriggerUpload = () => {
@@ -309,9 +329,25 @@ export default function AdminProfile() {
               <span className="brand-sub">Cairo University &bull; Faculty of Science</span>
             </div>
           </div>
-          <div className="topbar-role-tag">
-            <span className="role-dot"></span>
-            <span>Admin Console</span>
+          <div className="topbar-actions">
+            <Link to="/" className="btn btn-secondary btn-sm">Home</Link>
+            <div className="topbar-role-tag">
+              <span className="role-dot"></span>
+              <span>Admin Console</span>
+            </div>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                if (onLogout) {
+                  onLogout();
+                } else {
+                  logout();
+                }
+              }}
+            >
+              Sign out
+            </button>
           </div>
         </div>
       </header>
@@ -869,6 +905,10 @@ export default function AdminProfile() {
             </form>
           </section>
         </div>
+
+        <AdminCrudManager
+          onNotify={(type, message) => setToast({ type, message })}
+        />
       </main>
     </div>
   );
