@@ -1,11 +1,12 @@
 import React from 'react';
-import { Routes, Route, useNavigate, useLocation, Link } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation, Link } from 'react-router-dom';
 import LandingPage from './landingpage';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Profile from './pages/profile/Profile';
 import InstructorDashboard from './pages/dashboards/instructor/InstructorDashboard';
 import AdminProfile from './pages/admin/AdminProfile';
+import { useAuth, getHomePathForRole } from './context/AuthContext';
 import { ArrowLeft, ArrowRight, BookOpen } from 'lucide-react';
 import './App.css';
 
@@ -17,8 +18,23 @@ const destinations = {
   },
 };
 
+function ProtectedRoute({ allowedRoles, children }) {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to={getHomePathForRole(user.role)} replace />;
+  }
+
+  return children;
+}
+
 function DestinationPage() {
   const location = useLocation();
+  const { user } = useAuth();
   const destination = destinations[location.pathname];
   if (!destination) return <NotFoundPage />;
   const Icon = destination.icon;
@@ -46,8 +62,8 @@ function DestinationPage() {
         <Link className="destination-link" to="/">
           <ArrowLeft size={16} /> Back to UniTrack home
         </Link>
-        <Link className="destination-login" to="/login">
-          Sign in <ArrowRight size={15} />
+        <Link className="destination-login" to={user ? getHomePathForRole(user.role) : '/login'}>
+          {user ? 'Go to portal' : 'Sign in'} <ArrowRight size={15} />
         </Link>
       </div>
     </main>
@@ -71,16 +87,16 @@ function NotFoundPage() {
 
 export default function App() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { user, login, logout } = useAuth();
 
-  const handleLoginSuccess = (user) => {
-    if (user?.role === 'instructor' || user?.email?.toLowerCase().includes('instructor')) {
-      navigate('/instructor');
-    } else if (user?.role === 'admin' || user?.email?.toLowerCase().includes('admin')) {
-      navigate('/admin');
-    } else {
-      navigate('/profile');
-    }
+  const handleLoginSuccess = (authenticatedUser) => {
+    login(authenticatedUser);
+    navigate(getHomePathForRole(authenticatedUser?.role));
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -91,51 +107,100 @@ export default function App() {
         <Route
           path="/login"
           element={
-            <Login
-              onLoginSuccess={handleLoginSuccess}
-              onNavigateToRegister={() => navigate('/register')}
-            />
+            user ? (
+              <Navigate to={getHomePathForRole(user.role)} replace />
+            ) : (
+              <Login
+                onLoginSuccess={handleLoginSuccess}
+                onNavigateToRegister={() => navigate('/register')}
+              />
+            )
           }
         />
         <Route
           path="/register"
-          element={<Register onNavigateToLogin={() => navigate('/login')} />}
+          element={
+            user ? (
+              <Navigate to={getHomePathForRole(user.role)} replace />
+            ) : (
+              <Register
+                onNavigateToLogin={() => navigate('/login')}
+                onRegisterVerified={handleLoginSuccess}
+              />
+            )
+          }
         />
         <Route
           path="/profile"
-          element={<Profile onNavigateHome={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['student', 'admin']}>
+              <Profile onNavigateHome={() => navigate('/')} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/student"
-          element={<Profile onNavigateHome={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['student', 'admin']}>
+              <Profile onNavigateHome={() => navigate('/')} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/student-profile"
-          element={<Profile onNavigateHome={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['student', 'admin']}>
+              <Profile onNavigateHome={() => navigate('/')} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/student-dashboard"
-          element={<Profile onNavigateHome={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['student', 'admin']}>
+              <Profile onNavigateHome={() => navigate('/')} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/instructor/*"
-          element={<InstructorDashboard onLogout={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['instructor', 'admin']}>
+              <InstructorDashboard onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/instructor-dashboard/*"
-          element={<InstructorDashboard onLogout={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['instructor', 'admin']}>
+              <InstructorDashboard onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/admin/*"
-          element={<AdminProfile onLogout={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminProfile onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/admin-profile/*"
-          element={<AdminProfile onLogout={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminProfile onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/admin-dashboard/*"
-          element={<AdminProfile onLogout={() => navigate('/login')} />}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminProfile onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
         />
         {Object.keys(destinations).map((path) => (
           <Route key={path} path={path} element={<DestinationPage />} />
