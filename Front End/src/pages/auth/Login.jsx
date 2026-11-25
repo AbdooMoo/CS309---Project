@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { validateEmail, validatePassword } from '../../utils/validation';
+import { authApi } from '../../services/api';
 import sciBuildingImg from '../../assets/SCI-CU.jpg';
 import './Login.css';
 
@@ -83,7 +84,7 @@ export default function Login({ onNavigateToRegister, onLoginSuccess }) {
     setErrors(newErrors);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched({ email: true, password: true });
 
@@ -102,32 +103,40 @@ export default function Login({ onNavigateToRegister, onLoginSuccess }) {
     setIsLoading(true);
     setLoginFeedback(null);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const data = await authApi.login({ email, password });
       setLoginFeedback({
         type: 'success',
-        message: `Welcome back, ${email.split('@')[0]}! Signed in successfully. Loading your portal...`,
+        message: `Welcome back, ${data.user.fullName || email.split('@')[0]}! Redirecting...`,
       });
       if (onLoginSuccess) {
         setTimeout(() => {
-          onLoginSuccess({
-            email,
-            role: email.toLowerCase().includes('instructor') ? 'instructor' : 'student',
-          });
-        }, 900);
+          onLoginSuccess(data.user);
+        }, 600);
       }
-    }, 1200);
+    } catch (error) {
+      setLoginFeedback({
+        type: 'error',
+        message: error.message || 'Invalid email or password.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleQuickFill = (role) => {
     if (role === 'student') {
       setEmail('mohamed.ahmed@science.cu.edu.eg');
       setPassword('Student#2026');
-    } else {
+    } else if (role === 'instructor') {
       setEmail('dr.instructor@science.cu.edu.eg');
       setPassword('Faculty#2026');
+    } else {
+      setEmail('admin.tariq@science.cu.edu.eg');
+      setPassword('Admin#2026');
     }
     setErrors({});
+    setLoginFeedback(null);
     setTouched({ email: true, password: true });
   };
 
@@ -280,6 +289,13 @@ export default function Login({ onNavigateToRegister, onLoginSuccess }) {
                 onClick={() => handleQuickFill('instructor')}
               >
                 Instructor
+              </button>
+              <button
+                type="button"
+                className="demo-pill"
+                onClick={() => handleQuickFill('admin')}
+              >
+                Admin
               </button>
             </div>
 

@@ -289,6 +289,26 @@
   flex-shrink: 0;
 }
 
+.unitrack-register-wrapper .feedback-alert.error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.verify-code-input {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-align: center;
+  padding: 0 0.85rem;
+}
+
+.verify-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
 .register-form {
   display: flex;
   flex-direction: column;

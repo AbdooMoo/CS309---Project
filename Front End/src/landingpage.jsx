@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth, getHomePathForRole } from './context/AuthContext';
 import {
   ArrowDown,
   ArrowRight,
@@ -140,6 +141,8 @@ function QrPattern() {
 }
 
 function LandingPage() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [previewSeconds, setPreviewSeconds] = useState(15);
   const [demoOpen, setDemoOpen] = useState(false);
@@ -207,8 +210,28 @@ function LandingPage() {
             </a>
           </nav>
           <div className="header-actions">
-            <Link className="button button-outline button-small" to="/register">Sign up</Link>
-            <Link className="button button-primary button-small" to="/login">Sign in <ArrowUpRight size={15} /></Link>
+            {user ? (
+              <>
+                <Link className="button button-outline button-small" to={getHomePathForRole(user.role)}>
+                  My Portal
+                </Link>
+                <button
+                  type="button"
+                  className="button button-primary button-small"
+                  onClick={() => {
+                    logout();
+                    navigate('/');
+                  }}
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link className="button button-outline button-small" to="/register">Sign up</Link>
+                <Link className="button button-primary button-small" to="/login">Sign in <ArrowUpRight size={15} /></Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -439,7 +462,18 @@ function LandingPage() {
         <section className="final-cta-section">
           <div className="content-width final-cta">
             <div><span className="section-kicker">YOUR NEXT CLASS, MADE SIMPLE</span><h2>Ready to leave the paper behind?</h2><p>Take a look around UniTrack and see what a smoother class day feels like.</p></div>
-            <div className="final-cta-actions"><Link className="button button-light" to="/register">Create an account <ArrowRight size={16} /></Link><Link className="final-signin" to="/login">Already have an account? Sign in</Link></div>
+            <div className="final-cta-actions">
+              {user ? (
+                <Link className="button button-light" to={getHomePathForRole(user.role)}>
+                  Go to my portal <ArrowRight size={16} />
+                </Link>
+              ) : (
+                <>
+                  <Link className="button button-light" to="/register">Create an account <ArrowRight size={16} /></Link>
+                  <Link className="final-signin" to="/login">Already have an account? Sign in</Link>
+                </>
+              )}
+            </div>
           </div>
         </section>
       </main>

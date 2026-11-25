@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { coursesApi } from '../../services/api';
 import './Profile.css';
 
 const COURSES_DATA = [
@@ -32,9 +34,34 @@ const COURSES_DATA = [
   }
 ];
 
-export default function Profile({ onNavigateHome }) {
+export default function Profile({ onNavigateHome, onLogout }) {
+  const { user, logout } = useAuth();
   const [activeNav, setActiveNav] = useState('courses');
-  const [photoPreview, setPhotoPreview] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(user?.profilePicture || null);
+  const [coursesList, setCoursesList] = useState(COURSES_DATA);
+
+  useEffect(() => {
+    let active = true;
+    coursesApi
+      .getAll()
+      .then((data) => {
+        if (active && Array.isArray(data) && data.length > 0) {
+          setCoursesList(
+            data.map((c) => ({
+              code: c.code,
+              name: c.name,
+              attendance: 85,
+              totalLectures: c.sessionsCount || 12,
+              attended: Math.max(1, Math.round((c.sessionsCount || 12) * 0.85)),
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files && e.target.files[0];
@@ -111,6 +138,26 @@ export default function Profile({ onNavigateHome }) {
                   <span className="nav-text">Profile</span>
                 </button>
               </li>
+              <li>
+                <button
+                  type="button"
+                  className="profile-nav-link"
+                  onClick={() => {
+                    if (onLogout) {
+                      onLogout();
+                    } else {
+                      logout();
+                    }
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                  </svg>
+                  <span className="nav-text">Sign out</span>
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
@@ -144,8 +191,8 @@ export default function Profile({ onNavigateHome }) {
 
               <div className="identity-block">
                 <span className="faculty-tag">Faculty of Science &bull; Cairo University</span>
-                <h1 className="student-name">Sarah Ahmed</h1>
-                <p className="student-subtitle">Computer Science Student &bull; Level 3 (Class of 2026)</p>
+                <h1 className="student-name">{user?.fullName || 'Mohamed Ahmed'}</h1>
+                <p className="student-subtitle">{user?.department || 'Computer Science'} Student &bull; {user?.academicYear || 'Level 3'}</p>
               </div>
             </div>
           </div>
@@ -160,7 +207,7 @@ export default function Profile({ onNavigateHome }) {
               </div>
               <div className="info-content">
                 <span className="info-label">Student ID</span>
-                <span className="info-value">20210145</span>
+                <span className="info-value">{user?.universityId || '20231187'}</span>
               </div>
             </div>
 
@@ -173,7 +220,7 @@ export default function Profile({ onNavigateHome }) {
               </div>
               <div className="info-content">
                 <span className="info-label">University Email</span>
-                <span className="info-value">s.ahmed@science.cu.edu.eg</span>
+                <span className="info-value">{user?.email || 'mohamed.ahmed@science.cu.edu.eg'}</span>
               </div>
             </div>
 
@@ -204,7 +251,7 @@ export default function Profile({ onNavigateHome }) {
               </div>
               <div className="info-content">
                 <span className="info-label">Department</span>
-                <span className="info-value">Computer Science</span>
+                <span className="info-value">{user?.department || 'Computer Science'}</span>
               </div>
             </div>
           </div>
@@ -256,7 +303,7 @@ export default function Profile({ onNavigateHome }) {
         </div>
 
         <section className="courses-grid">
-          {COURSES_DATA.map((course) => (
+          {coursesList.map((course) => (
             <article key={course.code} className="course-card">
               <header className="course-header">
                 <div className="course-identity">

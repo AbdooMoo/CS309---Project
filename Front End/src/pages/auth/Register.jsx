@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { validateEmail, validatePassword } from '../../utils/validation';
+import { authApi } from '../../services/api';
 import sciBuildingImg from '../../assets/SCI-CU.jpg';
 import './Register.css';
 
@@ -23,7 +24,7 @@ const ACADEMIC_YEAR_OPTIONS = [
   'Department Staff / Teaching Assistant',
 ];
 
-export default function Register({ onNavigateToLogin }) {
+export default function Register({ onNavigateToLogin, onRegisterVerified }) {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -42,6 +43,8 @@ export default function Register({ onNavigateToLogin }) {
   const [touched, setTouched] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [verificationStep, setVerificationStep] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -223,7 +226,7 @@ export default function Register({ onNavigateToLogin }) {
     return Object.keys(newErrors).filter((k) => k !== 'emailWarning').length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isValid = validateAll();
@@ -234,19 +237,66 @@ export default function Register({ onNavigateToLogin }) {
     setIsLoading(true);
     setFeedback(null);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const role = formData.academicYear.toLowerCase().includes('staff') ? 'instructor' : 'student';
+      await authApi.register({
+        fullName: formData.fullName,
+        email: formData.email,
+        universityId: formData.universityId,
+        department: formData.department,
+        academicYear: formData.academicYear,
+        password: formData.password,
+        role,
+      });
+      setVerificationStep(true);
       setFeedback({
         type: 'success',
-        message: `Account created successfully for ${formData.fullName}! You can now sign in.`,
+        message: `Account saved for ${formData.email}. Please enter the verification code (1111) to activate.`,
       });
+    } catch (error) {
+      setFeedback({
+        type: 'error',
+        message: error.message || 'Registration failed. Please try again.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-      if (onNavigateToLogin) {
-        setTimeout(() => {
+  const handleVerifySubmit = async (e) => {
+    e.preventDefault();
+    if (!verificationCode.trim()) {
+      setFeedback({ type: 'error', message: 'Please enter the verification code.' });
+      return;
+    }
+
+    setIsLoading(true);
+    setFeedback(null);
+
+    try {
+      const data = await authApi.verifyEmail({
+        email: formData.email,
+        code: verificationCode.trim(),
+      });
+      setFeedback({
+        type: 'success',
+        message: 'Email verified successfully! Signing you in...',
+      });
+      setTimeout(() => {
+        if (onRegisterVerified) {
+          onRegisterVerified(data.user);
+        } else if (onNavigateToLogin) {
           onNavigateToLogin();
-        }, 1800);
-      }
-    }, 1200);
+        }
+      }, 700);
+    } catch (error) {
+      setFeedback({
+        type: 'error',
+        message: error.message || 'Invalid verification code.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -355,14 +405,63 @@ export default function Register({ onNavigateToLogin }) {
             {feedback && (
               <div className={`feedback-alert ${feedback.type}`}>
                 <span className="feedback-icon">
-                  <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="4 11 8 15 16 6" />
-                  </svg>
+                  {feedback.type === 'success' ? (
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="4 11 8 15 16 6" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="10" cy="10" r="8" />
+                      <line x1="10" y1="6" x2="10" y2="10" />
+                      <line x1="10" y1="14" x2="10.01" y2="14" />
+                    </svg>
+                  )}
                 </span>
                 <span>{feedback.message}</span>
               </div>
             )}
 
+            {verificationStep ? (
+              <form className="register-form verify-card" onSubmit={handleVerifySubmit} noValidate>
+                <div className="input-field-group">
+                  <label htmlFor="verify-code" className="field-label">
+                    EMAIL VERIFICATION CODE
+                  </label>
+                  <div className="input-control-wrapper">
+                    <input
+                      id="verify-code"
+                      type="text"
+                      maxLength={6}
+                      placeholder="Enter 1111"
+                      className="text-input verify-code-input"
+                      value={verificationCode}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                    />
+                  </div>
+                  <span className="verify-hint">
+                    Temporary verification enabled: enter <strong>1111</strong> to verify <strong>{formData.email}</strong>.
+                  </span>
+                </div>
+
+                <button
+                  type="submit"
+                  className="submit-button"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <span className="spinner-wrapper">
+                      <span className="button-spinner" />
+                      Verifying...
+                    </span>
+                  ) : (
+                    <>
+                      <span>Verify Email</span>
+                      <span className="submit-arrow">&rarr;</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            ) : (
             <form className="register-form" onSubmit={handleSubmit} noValidate>
               <div className={`input-field-group ${errors.fullName ? 'has-error' : ''}`}>
                 <label htmlFor="reg-fullname" className="field-label">
@@ -646,6 +745,7 @@ export default function Register({ onNavigateToLogin }) {
                 )}
               </button>
             </form>
+            )}
 
             <p className="register-bottom-prompt">
               Already have an account?{' '}

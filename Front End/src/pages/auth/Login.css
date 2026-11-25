@@ -391,6 +391,12 @@
   border: 1px solid #a7f3d0;
 }
 
+.feedback-alert.error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
 .feedback-icon {
   display: flex;
   align-items: center;
