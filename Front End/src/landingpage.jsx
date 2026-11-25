@@ -8,7 +8,6 @@ import {
   BookOpen,
   Check,
   CheckCircle2,
-  ChevronDown,
   Clock3,
   Fingerprint,
   GraduationCap,
@@ -17,7 +16,6 @@ import {
   QrCode,
   ScanLine,
   ShieldCheck,
-  Sparkles,
   UserRound,
   UsersRound,
   X,
@@ -207,19 +205,9 @@ function LandingPage() {
               Report builder
               <span className="cart-count" aria-label={`${selectedCourses.length} selected courses`}>{selectedCourses.length}</span>
             </a>
-            <details className="quick-nav">
-              <summary>Quick navigate <ChevronDown size={14} /></summary>
-              <div className="quick-nav-menu">
-                {portals.map((portal) => (
-                  <Link key={portal.link} to={portal.link} onClick={() => setMobileMenuOpen(false)}>
-                    <portal.icon size={16} /> {portal.title}
-                  </Link>
-                ))}
-              </div>
-            </details>
           </nav>
           <div className="header-actions">
-            <Link className="button button-outline button-small" to="/live-demo"><Sparkles size={15} /> Live demo</Link>
+            <Link className="button button-outline button-small" to="/register">Sign up</Link>
             <Link className="button button-primary button-small" to="/login">Sign in <ArrowUpRight size={15} /></Link>
           </div>
         </div>
@@ -237,7 +225,7 @@ function LandingPage() {
                 instantly to course dashboards.
               </p>
               <div className="hero-actions">
-                <Link className="button button-primary button-large" to="/live-demo">Launch interactive demo <ArrowRight size={17} /></Link>
+                <Link className="button button-primary button-large" to="/register">Get started <ArrowRight size={17} /></Link>
                 <a className="button button-quiet button-large" href="#portals">Explore portals <ArrowDown size={16} /></a>
               </div>
               <div className="hero-proof">
@@ -451,7 +439,7 @@ function LandingPage() {
         <section className="final-cta-section">
           <div className="content-width final-cta">
             <div><span className="section-kicker">YOUR NEXT CLASS, MADE SIMPLE</span><h2>Ready to leave the paper behind?</h2><p>Take a look around UniTrack and see what a smoother class day feels like.</p></div>
-            <div className="final-cta-actions"><Link className="button button-light" to="/live-demo">Try the live demo <ArrowRight size={16} /></Link><Link className="final-signin" to="/login">Already have an account? Sign in</Link></div>
+            <div className="final-cta-actions"><Link className="button button-light" to="/register">Create an account <ArrowRight size={16} /></Link><Link className="final-signin" to="/login">Already have an account? Sign in</Link></div>
           </div>
         </section>
       </main>
@@ -460,8 +448,8 @@ function LandingPage() {
         <div className="content-width footer-main">
           <div className="footer-brand"><Brand light /><p>A smarter attendance experience<br />for the Faculty of Science.</p></div>
           <div className="footer-links">
-            <div><span>EXPLORE</span><Link to="/login">Sign in</Link><Link to="/student-dashboard">Student portal</Link><Link to="/instructor-dashboard">Instructor portal</Link></div>
-            <div><span>MORE</span><Link to="/admin-dashboard">Admin portal</Link><Link to="/reports-builder" state={reportState}>Report builder</Link><Link to="/live-demo">Live demo</Link></div>
+            <div><span>EXPLORE</span><Link to="/login">Sign in</Link><Link to="/register">Sign up</Link><Link to="/student-dashboard">Student portal</Link></div>
+            <div><span>MORE</span><Link to="/instructor-dashboard">Instructor portal</Link><Link to="/admin-dashboard">Admin portal</Link><Link to="/reports-builder" state={reportState}>Report builder</Link></div>
           </div>
         </div>
         <div className="content-width footer-bottom"><span>© {new Date().getFullYear()} UniTrack · Faculty of Science</span><span>Built for a better class day <span className="footer-heart">✦</span></span></div>

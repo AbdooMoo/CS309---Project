@@ -6,7 +6,7 @@ import Register from './pages/auth/Register';
 import Profile from './pages/profile/Profile';
 import InstructorDashboard from './pages/dashboards/instructor/InstructorDashboard';
 import AdminProfile from './pages/admin/AdminProfile';
-import { ArrowLeft, ArrowRight, BarChart3, BookOpen, GraduationCap, ScanLine } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen } from 'lucide-react';
 import './App.css';
 
 const destinations = {
@@ -14,11 +14,6 @@ const destinations = {
     title: 'Combined attendance report',
     description: 'Your selected courses are ready to be combined into an attendance report.',
     icon: BookOpen,
-  },
-  '/live-demo': {
-    title: 'Interactive demo',
-    description: 'Explore a sample instructor session and student QR check-in from the landing page.',
-    icon: ScanLine,
   },
 };
 
@@ -47,11 +42,6 @@ function DestinationPage() {
               ? `${selectedCount} course${selectedCount === 1 ? '' : 's'} selected from the landing page.`
               : 'Choose courses in the report builder preview on the home page to get started.'}
           </div>
-        )}
-        {location.pathname === '/live-demo' && (
-          <p className="destination-hint">
-            The interactive instructor-to-student simulation is on the home page.
-          </p>
         )}
         <Link className="destination-link" to="/">
           <ArrowLeft size={16} /> Back to UniTrack home
