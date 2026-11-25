@@ -1,4 +1,4 @@
-:root {
+.unitrack-register-wrapper {
   --wine-primary: #581825;
   --wine-dark: #3f101a;
   --wine-hover: #6e1f2f;
@@ -13,9 +13,6 @@
   --input-bg: #ffffff;
   --error-color: #dc2626;
   --error-bg: #fef2f2;
-}
-
-.unitrack-register-wrapper {
   position: relative;
   min-height: 100vh;
   width: 100%;

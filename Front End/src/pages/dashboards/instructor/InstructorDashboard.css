@@ -427,7 +427,7 @@
   clip-path: inset(50%);
 }
 
-.modal-backdrop {
+.instructor-page .modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 30;
@@ -438,7 +438,7 @@
   background: rgba(47, 31, 31, .38);
 }
 
-.modal-panel {
+.instructor-page .modal-panel {
   width: min(100%, 520px);
   max-height: calc(100vh - 48px);
   overflow-y: auto;
@@ -449,11 +449,11 @@
   box-shadow: 0 18px 54px rgba(47, 31, 31, .15);
 }
 
-.modal-panel-wide {
+.instructor-page .modal-panel-wide {
   width: min(100%, 740px);
 }
 
-.modal-header {
+.instructor-page .modal-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -461,7 +461,7 @@
   margin-bottom: 20px;
 }
 
-.modal-header h2 {
+.instructor-page .modal-header h2 {
   margin: 0;
   color: #30272a;
   font-family: 'Playfair Display', Georgia, serif;
@@ -469,14 +469,14 @@
   font-weight: 500;
 }
 
-.modal-header p,
-.modal-copy {
+.instructor-page .modal-header p,
+.instructor-page .modal-copy {
   margin: 6px 0 0;
   color: var(--muted);
   font-size: 12px;
 }
 
-.modal-close {
+.instructor-page .modal-close {
   width: 30px;
   height: 30px;
   border: 0;
@@ -487,18 +487,18 @@
   cursor: pointer;
 }
 
-.modal-form {
+.instructor-page .modal-form {
   display: grid;
   gap: 14px;
 }
 
-.modal-grid {
+.instructor-page .modal-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 13px;
 }
 
-.modal-field {
+.instructor-page .modal-field {
   display: grid;
   gap: 6px;
   color: #6e6567;
@@ -506,9 +506,9 @@
   font-weight: 600;
 }
 
-.modal-field input,
-.modal-field select,
-.modal-field textarea {
+.instructor-page .modal-field input,
+.instructor-page .modal-field select,
+.instructor-page .modal-field textarea {
   width: 100%;
   min-height: 38px;
   padding: 8px 10px;
@@ -520,19 +520,19 @@
   font-size: 12px;
 }
 
-.modal-field textarea {
+.instructor-page .modal-field textarea {
   min-height: 86px;
   resize: vertical;
 }
 
-.modal-actions {
+.instructor-page .modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 9px;
   margin-top: 8px;
 }
 
-.modal-actions .button {
+.instructor-page .modal-actions .button {
   font-family: inherit;
 }
 
@@ -718,16 +718,16 @@
     flex-wrap: wrap;
   }
 
-  .modal-backdrop {
+  .instructor-page .modal-backdrop {
     padding: 12px;
   }
 
-  .modal-panel {
+  .instructor-page .modal-panel {
     max-height: calc(100vh - 24px);
     padding: 19px;
   }
 
-  .modal-grid {
+  .instructor-page .modal-grid {
     grid-template-columns: 1fr;
   }
 }

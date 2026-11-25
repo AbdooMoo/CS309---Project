@@ -1,4 +1,4 @@
-:root {
+.profile-page-wrapper {
   --wine-primary: #45121e;
   --wine-dark: #2d1117;
   --wine-darker: #200a0e;
@@ -13,9 +13,6 @@
   --text-muted: #4b5563;
   --border-light: #e5e7eb;
   --border-subtle: #e8e1d7;
-}
-
-.profile-page-wrapper {
   background-color: var(--bg-cream);
   color: var(--text-dark);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

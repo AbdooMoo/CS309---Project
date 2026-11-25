@@ -14,7 +14,7 @@
   font-family: 'DM Sans', 'Segoe UI', sans-serif;
   font-size: 15px;
   line-height: 1.55;
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 .landing-page *,
@@ -1032,7 +1032,6 @@
   .quick-nav-menu { top: 34px; left: 0; right: auto; }
   .header-actions { margin-left: auto; }
   .header-actions .button-small { min-height: 34px; padding: 0 10px; font-size: 10px; }
-  .header-actions .button-outline { display: none; }
   .hero-section { padding-top: 53px; }
   .hero-inner { grid-template-columns: 1fr 0.9fr; gap: 10px; min-height: 430px; }
   .hero-copy h1 { font-size: 48px; }

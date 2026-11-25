@@ -1,4 +1,4 @@
-:root {
+.admin-profile-page {
   --admin-bg: #FAF7F2;
   --admin-primary: #5A1828;
   --admin-primary-hover: #45121e;
@@ -24,16 +24,6 @@
   --admin-info: #1d4ed8;
   --admin-info-bg: #eff6ff;
   --admin-info-border: #bfdbfe;
-}
-
-.admin-profile-page,
-.admin-profile-page *,
-.admin-profile-page *::before,
-.admin-profile-page *::after {
-  box-sizing: border-box;
-}
-
-.admin-profile-page {
   min-height: 100vh;
   background-color: var(--admin-bg);
   color: var(--admin-text-main);
@@ -41,6 +31,12 @@
   padding-bottom: 4rem;
   width: 100%;
   overflow-x: hidden;
+}
+
+.admin-profile-page *,
+.admin-profile-page *::before,
+.admin-profile-page *::after {
+  box-sizing: border-box;
 }
 
 .admin-topbar {
