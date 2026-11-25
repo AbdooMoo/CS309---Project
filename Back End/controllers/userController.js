@@ -2,7 +2,18 @@ import User from '../models/User.js';
 
 export async function registerUser(req, res) {
   try {
-    const { fullName, email, password, role, universityId, department, academicYear, phone, jobTitle } = req.body;
+    const {
+      fullName,
+      email,
+      password,
+      role,
+      universityId,
+      department,
+      academicYear,
+      phone,
+      jobTitle,
+      isVerified,
+    } = req.body;
 
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: 'Full name, email, and password are required.' });
@@ -17,18 +28,50 @@ export async function registerUser(req, res) {
       fullName,
       email,
       password,
-      role,
+      role: role || 'student',
       universityId,
       department,
       academicYear,
       phone,
       jobTitle,
+      isVerified: Boolean(isVerified),
     });
 
     const userObj = user.toObject();
     delete userObj.password;
 
     return res.status(201).json(userObj);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function verifyUserEmail(req, res) {
+  try {
+    const { email, code } = req.body;
+
+    if (!email || !code) {
+      return res.status(400).json({ message: 'Email and verification code are required.' });
+    }
+
+    if (String(code).trim() !== '1111') {
+      return res.status(400).json({ message: 'Invalid verification code. Enter 1111 to verify.' });
+    }
+
+    const user = await User.findOneAndUpdate(
+      { email: email.toLowerCase().trim() },
+      { isVerified: true },
+      { new: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: 'Account not found for this email.' });
+    }
+
+    return res.status(200).json({
+      message: 'Email verified successfully.',
+      user,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -83,7 +126,9 @@ export async function getUserById(req, res) {
 export async function updateUserProfile(req, res) {
   try {
     const updates = { ...req.body };
-    delete updates.role;
+    if (!updates.password) {
+      delete updates.password;
+    }
 
     const user = await User.findByIdAndUpdate(req.params.id, updates, {
       new: true,

@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
+import { seedInitialData } from './config/seed.js';
 import userRoutes from './routes/userRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
 import sessionRoutes from './routes/sessionRoutes.js';
@@ -28,6 +29,7 @@ async function startServer() {
   try {
     if (process.env.MONGO_URI) {
       await connectDB();
+      await seedInitialData();
     }
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
